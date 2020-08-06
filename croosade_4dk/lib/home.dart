@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:path_provider/path_provider.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -11,10 +14,36 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  final _forceList = <String>[];
+  File jsonFile;
+  Directory dir;
+  String fileName = "crusade.json";
+  bool fileExists = false;
+  Map<String, dynamic> fileContent = {"No Entries" : "No Entries"};
+
+  @override
+  void initState(){
+    super.initState();
+    refreshPage();
+  }
+
+  void refreshPage(){
+    getApplicationDocumentsDirectory().then((Directory directory){
+      dir = directory;
+      jsonFile = new File(dir.path + "/" + fileName);
+      fileExists = jsonFile.existsSync();
+      if(fileExists) this.setState(() {
+        fileContent = json.decode(jsonFile.readAsStringSync());
+      });
+      else fileContent = {"No Entries" : "No Entries"};
+    });
+  }
 
   void _navigateToAddCrusadeForcePage(){
-    Navigator.pushNamed(context, '/AddCrusadeForcePage');
+    Navigator.pushNamed(context, '/AddCrusadeForcePage').then((value) {
+      setState(() {
+        refreshPage();
+      });
+    });
   }
 
   @override
@@ -28,23 +57,28 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _navigateToAddCrusadeForcePage,
         tooltip: 'Add Crusade Force',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+      persistentFooterButtons: [
+        RaisedButton(
+          child: Text("Delete Entries"),
+          onPressed: () => deleteFile(dir, fileName),
+        ),
+      ],// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
   Widget _crusadeForceList() {
-    _forceList.add("Vibing Dragons");
-    _forceList.add("Blue Suits");
-    _forceList.add("Jigsaws");
-    return ListView.builder(
+    var keys = fileContent.keys.toList();
+    return ListView.separated(
         padding: EdgeInsets.all(16.0),
-        itemCount: _forceList.length,
+        itemCount: fileContent.keys.length,
         itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
+          return _buildRow(keys[i] + " / " + fileContent[keys[i]]);
+        },
+        separatorBuilder: (context, index) {
+          return Divider();
+        },);
 
-          final index = i ~/ 2; /*3*/
-          return _buildRow(_forceList[index]);
-        });
   }
 
   Widget _buildRow(String forceName) {
@@ -52,5 +86,13 @@ class _MyHomePageState extends State<MyHomePage> {
       title: Text(forceName),             // ... to here.
       onTap: () {print("Force: $forceName was clicked");},
     );
+  }
+
+  void deleteFile(Directory dir, String fileName){
+    File file = new File(dir.path + "/" + fileName);
+    file.delete();
+    setState(() {
+      refreshPage();
+    });
   }
 }
