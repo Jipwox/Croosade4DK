@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
+import 'CrusadeForceModel.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -13,17 +14,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   File jsonFile;
   Directory dir;
   String fileName = "crusade.json";
   bool fileExists = false;
-  Map<String, dynamic> fileContent = {"No Entries" : "No Entries"};
+  List<CrusadeForceModel> forceModels = [new CrusadeForceModel("No Entries", "No Entries")];
 
   @override
   void initState(){
     super.initState();
-    refreshPage();
+    getApplicationDocumentsDirectory().then((Directory directory){
+      dir = directory;
+      jsonFile = new File(dir.path + "/" + fileName);
+      fileExists = jsonFile.existsSync();
+      if(fileExists){
+        var fileContent = json.decode(jsonFile.readAsStringSync());
+        for(Map i in fileContent){
+          forceModels.add(CrusadeForceModel.fromJson(i));
+        }
+        if(forceModels.length > 1) forceModels.removeWhere((element) => element.name == "No Crusade Entries");
+      } else {
+        forceModels = [new CrusadeForceModel("No Crusade Entries", "No Crusade Entries")];
+      }
+    });
   }
 
   void refreshPage(){
@@ -32,17 +45,22 @@ class _MyHomePageState extends State<MyHomePage> {
       jsonFile = new File(dir.path + "/" + fileName);
       fileExists = jsonFile.existsSync();
       if(fileExists) this.setState(() {
-        fileContent = json.decode(jsonFile.readAsStringSync());
+        var fileContent = json.decode(jsonFile.readAsStringSync());
+        forceModels.clear();
+        for(Map i in fileContent){
+          forceModels.add(CrusadeForceModel.fromJson(i));
+        }
+        if(forceModels.length > 1) forceModels.removeWhere((element) => element.name == "No Crusade Entries");
       });
-      else fileContent = {"No Entries" : "No Entries"};
+      else{
+        forceModels = [new CrusadeForceModel("No Crusade Entries", "No Crusade Entries")];
+      }
     });
   }
 
   void _navigateToAddCrusadeForcePage(){
     Navigator.pushNamed(context, '/AddCrusadeForcePage').then((value) {
-      setState(() {
-        refreshPage();
-      });
+      refreshPage();
     });
   }
 
@@ -68,12 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _crusadeForceList() {
-    var keys = fileContent.keys.toList();
     return ListView.separated(
         padding: EdgeInsets.all(16.0),
-        itemCount: fileContent.keys.length,
+        itemCount: forceModels.length,
         itemBuilder: /*1*/ (context, i) {
-          return _buildRow(keys[i] + " / " + fileContent[keys[i]]);
+          return _buildRow(forceModels[i].name + " / " + forceModels[i].faction);
         },
         separatorBuilder: (context, index) {
           return Divider();

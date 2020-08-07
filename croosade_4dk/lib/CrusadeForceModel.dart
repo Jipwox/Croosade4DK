@@ -10,10 +10,24 @@ part 'CrusadeForceModel.g.dart';
 @JsonSerializable()
 
 class CrusadeForceModel{
-  CrusadeForceModel(this.name, this.faction);
 
   String name;
   String faction;
+  int battleTally;
+  int battlesWon;
+  int requisitionPoints;
+  int supplyLimit;
+  int supplyUsed;
+
+  CrusadeForceModel(String name, String faction){
+    this.name = name;
+    this.faction = faction;
+    this.battleTally = 0;
+    this.battlesWon = 0;
+    this.requisitionPoints = 5;
+    this.supplyLimit = 50;
+    this.supplyUsed = 0;
+  }
 
   /// A necessary factory constructor for creating a new CrusadeForceModel instance
   /// from a map. Pass the map to the generated `_$CrusadeForceModelFromJson()` constructor.

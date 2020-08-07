@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
+import 'CrusadeForceModel.dart';
 
 class AddCrusadeForcePage extends StatefulWidget {
 
@@ -21,6 +22,7 @@ class _AddCrusadeForceState extends State<AddCrusadeForcePage> {
   String fileName = "crusade.json";
   bool fileExists = false;
   Map<String, dynamic> fileContent;
+  List<CrusadeForceModel> forceModels = [new CrusadeForceModel("No Crusade Entries", "No Crusade Entries")];
 
   @override
   void initState(){
@@ -29,9 +31,7 @@ class _AddCrusadeForceState extends State<AddCrusadeForcePage> {
       dir = directory;
       jsonFile = new File(dir.path + "/" + fileName);
       fileExists = jsonFile.existsSync();
-      if(fileExists) this.setState(() {
-        fileContent = json.decode(jsonFile.readAsStringSync());
-      });
+      if(fileExists) refresh();
     });
   }
 
@@ -42,7 +42,7 @@ class _AddCrusadeForceState extends State<AddCrusadeForcePage> {
     super.dispose();
   }
 
-  void createFile(Map<String, dynamic> content, Directory dir, String fileName){
+  void createFile(List<CrusadeForceModel> content, Directory dir, String fileName){
     print("creating file");
     File file = new File(dir.path + "/" + fileName);
     file.createSync();
@@ -51,19 +51,26 @@ class _AddCrusadeForceState extends State<AddCrusadeForcePage> {
 
   }
 
-  void writeToFile(String key, dynamic value) {
-    Map<String, dynamic> content = {key: value};
+  void refresh(){
+    this.setState(() {
+      var fileContent = json.decode(jsonFile.readAsStringSync());
+      forceModels.clear();
+      for(Map i in fileContent){
+        forceModels.add(CrusadeForceModel.fromJson(i));
+      }
+    });
+  }
+
+  void writeToFile(String forceName, String forceFaction) {
+    forceModels.add(new CrusadeForceModel(forceNameController.text, forceFactionController.text));
+    if(forceModels.length > 1) forceModels.removeWhere((element) => element.name == "No Crusade Entries");
     if(!jsonFile.existsSync()){
       print("file doesn't exist");
-      createFile(content, dir, fileName);
+      createFile(forceModels, dir, fileName);
     }
     print("writing to file");
-    Map<String, dynamic> jsonFileContent = json.decode(jsonFile.readAsStringSync());
-    jsonFileContent.addAll(content);
-    jsonFile.writeAsStringSync(json.encode(jsonFileContent));
-    this.setState(() {
-      fileContent = json.decode(jsonFile.readAsStringSync());
-    });
+    jsonFile.writeAsStringSync(json.encode(forceModels));
+    refresh();
     Navigator.pop(context);
   }
 
@@ -73,15 +80,48 @@ class _AddCrusadeForceState extends State<AddCrusadeForcePage> {
       appBar: AppBar(title: Text(widget.title),),
       body: Column(
         children: [
-          Padding(padding: EdgeInsets.only(top: 10.0),),
-          Text("Force Name"),
-          TextField(controller: forceNameController,),
-          Text("Force Faction"),
-          TextField(controller: forceFactionController,),
           Padding(padding: EdgeInsets.only(top: 20.0),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(top: 10.0,),),
+                  Text("Force Name"),
+                  SizedBox(height: 30,),
+                  Text("Force Faction"),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(top: 10.0,),),
+                  Container(
+                    width: 250.0,
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: "Name your Crusade force"
+                      ),
+                      controller: forceNameController,
+                    ),
+                  ),
+                  Container(
+                    width: 250.0,
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: "Choose your Crusade faction"
+                      ),
+                      controller: forceFactionController,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           RaisedButton(
             child: Text("Save"),
-            onPressed: () => writeToFile(forceNameController.text, forceFactionController.text ),
+            onPressed: () => writeToFile(forceNameController.text, forceFactionController.text),
           ),
         ],
       ),// This trailing comma makes auto-formatting nicer for build methods.
