@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
-import 'CrusadeForceModel.dart';
+import '../Models/CrusadeForceModel.dart';
 
 class AddCrusadeForcePage extends StatefulWidget {
 
