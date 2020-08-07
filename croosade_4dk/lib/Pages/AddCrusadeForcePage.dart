@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 import '../Models/CrusadeForceModel.dart';
+import '../utils/Database.dart';
 
 class AddCrusadeForcePage extends StatefulWidget {
 
@@ -17,21 +18,21 @@ class _AddCrusadeForceState extends State<AddCrusadeForcePage> {
   TextEditingController forceNameController = new TextEditingController();
   TextEditingController forceFactionController = new TextEditingController();
 
-  File jsonFile;
-  Directory dir;
-  String fileName = "crusade.json";
-  bool fileExists = false;
-  Map<String, dynamic> fileContent;
-  List<CrusadeForceModel> forceModels = [new CrusadeForceModel("No Crusade Entries", "No Crusade Entries")];
+  List<CrusadeForceModel> forceModels = [];
 
   @override
   void initState(){
     super.initState();
-    getApplicationDocumentsDirectory().then((Directory directory){
-      dir = directory;
-      jsonFile = new File(dir.path + "/" + fileName);
-      fileExists = jsonFile.existsSync();
-      if(fileExists) refresh();
+    retrieveModels();
+  }
+
+  void retrieveModels() async {
+    forceModels = await DatabaseProvider.db.getCrusadeForces();
+  }
+
+  void refreshPage(){
+    setState(() {
+      retrieveModels();
     });
   }
 
@@ -42,35 +43,12 @@ class _AddCrusadeForceState extends State<AddCrusadeForcePage> {
     super.dispose();
   }
 
-  void createFile(List<CrusadeForceModel> content, Directory dir, String fileName){
-    print("creating file");
-    File file = new File(dir.path + "/" + fileName);
-    file.createSync();
-    fileExists = file.existsSync();
-    file.writeAsStringSync(json.encode(content));
 
-  }
+  void writeToDB(String forceName, String forceFaction) async {
+    var crusadeForceModel = CrusadeForceModel(forceNameController.text, forceFactionController.text);
+    await DatabaseProvider.db.insert(crusadeForceModel);
 
-  void refresh(){
-    this.setState(() {
-      var fileContent = json.decode(jsonFile.readAsStringSync());
-      forceModels.clear();
-      for(Map i in fileContent){
-        forceModels.add(CrusadeForceModel.fromJson(i));
-      }
-    });
-  }
-
-  void writeToFile(String forceName, String forceFaction) {
-    forceModels.add(new CrusadeForceModel(forceNameController.text, forceFactionController.text));
-    if(forceModels.length > 1) forceModels.removeWhere((element) => element.name == "No Crusade Entries");
-    if(!jsonFile.existsSync()){
-      print("file doesn't exist");
-      createFile(forceModels, dir, fileName);
-    }
-    print("writing to file");
-    jsonFile.writeAsStringSync(json.encode(forceModels));
-    refresh();
+    refreshPage();
     Navigator.pop(context);
   }
 
@@ -121,7 +99,7 @@ class _AddCrusadeForceState extends State<AddCrusadeForcePage> {
           ),
           RaisedButton(
             child: Text("Save"),
-            onPressed: () => writeToFile(forceNameController.text, forceFactionController.text),
+            onPressed: () => writeToDB(forceNameController.text, forceFactionController.text),
           ),
         ],
       ),// This trailing comma makes auto-formatting nicer for build methods.

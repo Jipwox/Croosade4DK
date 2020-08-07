@@ -1,8 +1,3 @@
-import 'dart:async';
-import '../db/databaseProvider.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class CrusadeForceModel {
 
@@ -26,7 +21,7 @@ class CrusadeForceModel {
   }
 
   Map<String, dynamic> toMap(){
-    return{
+    var map = <String, dynamic>{
       'ID' : id,
       'NAME' : name,
       'FACTION' : faction,
@@ -36,10 +31,25 @@ class CrusadeForceModel {
       'SUPPLY_LIMIT' : supplyLimit,
       'SUPPLY_USED' : supplyUsed
     };
+
+    if(id != null){
+      map['ID'] = id;
+    }
+
+    return map;
   }
 
-  Future<void> insertCrusaderForceModel(CrusadeForceModel crusadeForceModel) async{
-    final Database db = database
+  CrusadeForceModel.fromMap(Map<String, dynamic> map){
+    id = map['ID'];
+    name = map['NAME'];
+    faction = map['FACTION'];
+    battleTally = map['BATTLE_TALLY'];
+    battlesWon = map['BATTLES_WON'];
+    requisitionPoints = map['REQUISITION_POINTS'];
+    supplyLimit = map['SUPPLY_LIMIT'];
+    supplyUsed = map['SUPPLY_USED'];
+
   }
+
 }
 
