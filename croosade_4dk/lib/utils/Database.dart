@@ -30,9 +30,10 @@ class DatabaseProvider{
                   FACTION TEXT,
                   BATTLE_TALLY INTEGER,
                   BATTLES_WON INTEGER,
-                  REQUISITION_POINTS,
-                  SUPPLY_LIMIT,
-                  SUPPLY_USED
+                  REQUISITION_POINTS INTEGER,
+                  SUPPLY_LIMIT INTEGER,
+                  SUPPLY_USED INTEGER,
+                  INFO TEXT
                   )
           ''');
         }
@@ -62,7 +63,7 @@ class DatabaseProvider{
     var crusadeForces = await db.query(
       'CRUSADE_FORCE',
         columns: ['ID', 'NAME', 'FACTION', 'BATTLE_TALLY', 'BATTLES_WON',
-                'REQUISITION_POINTS', 'SUPPLY_LIMIT', 'SUPPLY_USED']
+                'REQUISITION_POINTS', 'SUPPLY_LIMIT', 'SUPPLY_USED', 'INFO']
     );
 
     List<CrusadeForceModel> forceModelList = List<CrusadeForceModel>();
@@ -86,6 +87,14 @@ class DatabaseProvider{
   Future<void> deleteCrusadeForceModels() async{
     final db = await database;
     await db.delete('CRUSADE_FORCE');
+  }
+
+  Future<void> updateCrusaderForceModel(CrusadeForceModel forceModel) async {
+    final db = await database;
+    await db.update('CRUSADE_FORCE', forceModel.toMap(),
+        where: 'CRUSADE_FORCE.ID = ?',
+        whereArgs: [forceModel.id]
+    );
   }
 
 }

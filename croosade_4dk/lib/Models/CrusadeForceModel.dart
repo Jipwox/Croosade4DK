@@ -9,6 +9,7 @@ class CrusadeForceModel {
   int requisitionPoints;
   int supplyLimit;
   int supplyUsed;
+  String info;
 
   CrusadeForceModel(String name, String faction) {
     this.name = name;
@@ -18,6 +19,7 @@ class CrusadeForceModel {
     this.requisitionPoints = 5;
     this.supplyLimit = 50;
     this.supplyUsed = 0;
+    this.info = "";
   }
 
   Map<String, dynamic> toMap(){
@@ -29,7 +31,8 @@ class CrusadeForceModel {
       'BATTLES_WON' : battlesWon,
       'REQUISITION_POINTS' : requisitionPoints,
       'SUPPLY_LIMIT' : supplyLimit,
-      'SUPPLY_USED' : supplyUsed
+      'SUPPLY_USED' : supplyUsed,
+      'INFO' : info
     };
 
     if(id != null){
@@ -48,6 +51,7 @@ class CrusadeForceModel {
     requisitionPoints = map['REQUISITION_POINTS'];
     supplyLimit = map['SUPPLY_LIMIT'];
     supplyUsed = map['SUPPLY_USED'];
+    info = map['INFO'];
 
   }
 
