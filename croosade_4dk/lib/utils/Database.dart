@@ -39,6 +39,23 @@ class DatabaseProvider{
     );
   }
 
+  Future<CrusadeForceModel> getCrusadeForce(int id) async {
+    final db = await database;
+
+    CrusadeForceModel crusadeForceModel;
+
+    var result = await db.rawQuery(
+      'Select * from CRUSADE_FORCE where CRUSADE_FORCE.id = ?',
+      [id.toString()]
+    );
+
+    for(var row in result){
+      crusadeForceModel = CrusadeForceModel.fromMap(row);
+    }
+
+    return crusadeForceModel;
+  }
+
   Future<List<CrusadeForceModel>> getCrusadeForces() async {
     final db = await database;
 

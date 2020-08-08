@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Models/CrusadeForceModel.dart';
 import '../utils/Database.dart';
+import 'ViewCrusadeForcePage.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -38,6 +39,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _navigateToViewCrusadeForcePage(BuildContext context, forceTitle, forceId) async{
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewCrusadeForcePage(title: forceTitle, id: forceId)
+      )
+    );
+
+    refreshPage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: EdgeInsets.all(16.0),
             itemCount: forceModels.length,
             itemBuilder: /*1*/ (context, i) {
-              return _buildRow(forceModels[i].name + " / " + forceModels[i].faction);
+              return _buildRow(forceModels[i]);
             },
             separatorBuilder: (context, index) {
               return Divider();
@@ -79,10 +91,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
-  Widget _buildRow(String forceName) {
+  Widget _buildRow(CrusadeForceModel forceModel) {
+    String title = "${forceModel.name} / ${forceModel.faction}";
     return ListTile(
-      title: Text(forceName),             // ... to here.
-      onTap: () {print("Force: $forceName was clicked");},
+      title: Text(title),             // ... to here.
+      onTap: () {
+        _navigateToViewCrusadeForcePage(context, title, forceModel.id);
+      },
     );
   }
 
