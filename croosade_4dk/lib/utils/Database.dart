@@ -22,7 +22,7 @@ class DatabaseProvider{
     String dbPath = await getDatabasesPath();
     return await openDatabase(
         join(dbPath, 'crusadeDB.db'),
-        version: 1,
+        version: 2,
         onCreate: (Database database, int version) async{
           await database.execute('''
               CREATE TABLE CRUSADE_FORCE (

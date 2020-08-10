@@ -23,11 +23,11 @@ class CrusadeCardModel{
   int totalDestroyedPsychic;
   int totalDestroyedRanged;
   int totalDestroyedMelee;
-  String info;
+  String info = "";
 
   CrusadeCardModel(int crusadeForceId, String name, int powerRating, String battleFieldRole,
                     String unitType, String equipment, String psychicPowers, String warlordTraits,
-                    String relics, String otherUpgrades, String info) {
+                    String relics, String otherUpgrades) {
     this.name = name;
     this.crusadeForceId = crusadeForceId;
     this.rank = "Battle-ready";
@@ -48,7 +48,6 @@ class CrusadeCardModel{
     this.totalDestroyedPsychic = 0;
     this.totalDestroyedRanged = 0;
     this.totalDestroyedMelee = 0;
-    this.info = info;
   }
 
   Map<String, dynamic> toMap(){

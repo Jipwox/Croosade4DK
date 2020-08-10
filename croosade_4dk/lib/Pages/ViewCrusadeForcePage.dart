@@ -3,6 +3,7 @@ import '../Models/CrusadeForceModel.dart';
 import '../utils/Database.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'CrusadeForceDetailTab.dart';
+import 'CrusadeCardListTab.dart';
 import 'TapMeButton.dart';
 
 class ViewCrusadeForcePage extends StatefulWidget {
@@ -66,11 +67,7 @@ class _ViewCrusadeForceState extends State<ViewCrusadeForcePage> {
             body: TabBarView(
               children: [
                 CrusadeForceDetailTab(forceModel: forceModel,),
-                CustomButton(
-                  onPressed: () {
-                    print("Tapped Me");
-                  },
-                ),
+                CrusadeCardListTab(forceModel: forceModel,),
                 CustomButton(
                   onPressed: () {
                     print("Tapped Me");
