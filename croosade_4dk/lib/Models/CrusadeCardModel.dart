@@ -1,11 +1,13 @@
+import 'dart:convert';
+
 class CrusadeCardModel{
 
   int id;
   int crusadeForceId;
   String name;
   String rank;
-  List<String> battleHonors;
-  List<String> battleScars;
+  String battleHonors;
+  String battleScars;
   int powerRating;
   int experiencePoints;
   int crusadePoints;
@@ -29,8 +31,8 @@ class CrusadeCardModel{
     this.name = name;
     this.crusadeForceId = crusadeForceId;
     this.rank = "Battle-ready";
-    this.battleHonors = new List<String>();
-    this.battleScars = new List<String>();
+    this.battleHonors = "";
+    this.battleScars = "";
     this.powerRating = powerRating;
     this.experiencePoints = 0;
     this.crusadePoints = 0;
@@ -106,9 +108,40 @@ class CrusadeCardModel{
     totalDestroyedRanged = map['TOTAL_DESTROYED_RANGED'];
     totalDestroyedMelee = map['TOTAL_DESTROYED_MELEE'];
     info = map['INFO'];
+  }
 
+  //BattleHonors
+  List<String> getBattleHonors(){
+    return json.decode(battleHonors);
+  }
 
+  void addBattleHonor(String battleHonor){
+    List<String> battleHonorList = json.decode(battleHonors);
+    battleHonorList.add(battleHonor);
+    battleHonors = json.encode(battleHonorList);
+  }
 
+  void removeBattleHonor(String battleHonor){
+    List<String> battleHonorList = json.decode(battleHonors);
+    battleHonorList.removeWhere((element) => element == battleHonor);
+    battleHonors = json.encode(battleHonorList);
+  }
+
+  //BattleScars
+  List<String> getBattleScars(){
+    return json.decode(battleScars);
+  }
+
+  void addBattleScar(String battleScar){
+    List<String> battleScarList = json.decode(battleScars);
+    battleScarList.add(battleScar);
+    battleScars = json.encode(battleScarList);
+  }
+
+  void removeBattleScar(String battleScar){
+    List<String> battleScarList = json.decode(battleScar);
+    battleScarList.removeWhere((element) => element == battleScar);
+    battleScars = json.encode(battleScarList);
   }
 
 

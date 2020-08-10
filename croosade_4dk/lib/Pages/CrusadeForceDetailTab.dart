@@ -3,7 +3,7 @@ import '../Models/CrusadeForceModel.dart';
 import '../utils/Database.dart';
 
 class CrusadeForceDetailTab extends StatefulWidget {
-  CrusadeForceModel forceModel;
+  final CrusadeForceModel forceModel;
 
   CrusadeForceDetailTab({@required this.forceModel});
 

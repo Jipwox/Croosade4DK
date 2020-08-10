@@ -1,4 +1,4 @@
-import 'CrusadeCardModel.dart';
+
 
 class CrusadeForceModel {
 

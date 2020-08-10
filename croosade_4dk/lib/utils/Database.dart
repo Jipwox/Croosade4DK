@@ -1,4 +1,5 @@
 
+import 'package:croosade_4dk/Models/CrusadeCardModel.dart';
 import 'package:croosade_4dk/Models/CrusadeForceModel.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,9 +37,38 @@ class DatabaseProvider{
                   INFO TEXT
                   )
           ''');
+          await database.execute('''
+              CREATE TABLE CRUSADE_CARD (
+                  ID INTEGER PRIMARY KEY,
+                  CRUSADE_FORCE_ID INTEGER,
+                  NAME TEXT,
+                  RANK TEXT,
+                  BATTLE_HONORS TEXT,
+                  BATTLE_SCARS TEXT,
+                  POWER_RATING INTEGER,
+                  EXPERIENCE_POINTS INTEGER,
+                  CRUSADE_POINTS INTEGER,
+                  BATTLEFIELD_ROLE TEXT,
+                  UNIT_TYPE TEXT,
+                  EQUIPMENT TEXT,
+                  PSYCHIC_POWERS TEXT,
+                  WARLORD_TRAITS TEXT,
+                  RELICS TEXT,
+                  OTHER_UPGRADES TEXT,
+                  BATTLES_PLAYED INTEGER,
+                  TOTAL_DESTROYED INTEGER,
+                  TOTAL_DESTROYED_PSYCHIC INTEGER,
+                  TOTAL_DESTROYED_RANGED INTEGER,
+                  TOTAL_DESTROYED_MELEE INTEGER,
+                  INFO TEXT,
+                  FOREIGN KEY(CRUSADE_FORCE_ID) REFERENCES CRUSADE_FORCE(ID)
+                  )
+          ''');
         }
     );
   }
+
+  //CRUSADE FORCE MODEL METHODS
 
   Future<CrusadeForceModel> getCrusadeForce(int id) async {
     final db = await database;
@@ -76,7 +106,7 @@ class DatabaseProvider{
     return forceModelList;
   }
 
-  Future<CrusadeForceModel> insert (CrusadeForceModel crusadeForceModel) async{
+  Future<CrusadeForceModel> insertCrusadeForceModel (CrusadeForceModel crusadeForceModel) async{
     final db = await database;
 
     crusadeForceModel.id = await db.insert('CRUSADE_FORCE', crusadeForceModel.toMap());
@@ -86,6 +116,7 @@ class DatabaseProvider{
 
   Future<void> deleteCrusadeForceModels() async{
     final db = await database;
+    await db.delete('CRUSADE_CARD');
     await db.delete('CRUSADE_FORCE');
   }
 
@@ -97,4 +128,62 @@ class DatabaseProvider{
     );
   }
 
+  //CRUSADE CARD MODEL METHODS
+
+  Future<CrusadeCardModel> insertCrusadeCardModel (CrusadeCardModel crusadeCardModel) async{
+    final db = await database;
+
+    crusadeCardModel.id = await db.insert('CRUSADE_CARD', crusadeCardModel.toMap());
+
+    return crusadeCardModel;
+  }
+
+  Future<CrusadeCardModel> getCrusadeCard(int id) async {
+    final db = await database;
+
+    CrusadeCardModel crusadeCardModel;
+
+    var result = await db.rawQuery(
+        'Select * from CRUSADE_CARD where CRUSADE_CARD.id = ?',
+        [id.toString()]
+    );
+
+    for(var row in result){
+      crusadeCardModel = CrusadeCardModel.fromMap(row);
+    }
+
+    return crusadeCardModel;
+  }
+
+  Future<List<CrusadeCardModel>> getCrusadeCards(int id) async {
+    final db = await database;
+
+    var crusadeCards = await db.rawQuery(
+        'SELECT * FROM CRUSADE_CARD WHERE CRUSADE_CARD.ID = ?',
+        [id]
+    );
+
+    List<CrusadeCardModel> cardModelList = List<CrusadeCardModel>();
+
+    crusadeCards.forEach((currentCard) {
+      CrusadeCardModel crusadeCardModel = CrusadeCardModel.fromMap(currentCard);
+      cardModelList.add(crusadeCardModel);
+    });
+
+    return cardModelList;
+  }
+
+  Future<void> deleteCrusadeCardModels(int id) async{
+    final db = await database;
+    await db.rawDelete('DELETE * FROM CRUSADE_CARD WHERE CRUSADE_CARD.CRUSADE_FORCE_ID = ?',
+                        [id]);
+  }
+
+  Future<void> updateCrusaderCardModel(CrusadeCardModel cardModel) async {
+    final db = await database;
+    await db.update('CRUSADE_CARD', cardModel.toMap(),
+        where: 'CRUSADE_CARD.ID = ?',
+        whereArgs: [cardModel.id]
+    );
+  }
 }

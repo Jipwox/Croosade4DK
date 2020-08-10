@@ -43,7 +43,7 @@ class _AddCrusadeForceState extends State<AddCrusadeForcePage> {
 
   void writeToDB(String forceName, String forceFaction) async {
     var crusadeForceModel = CrusadeForceModel(forceNameController.text, forceFactionController.text);
-    await DatabaseProvider.db.insert(crusadeForceModel);
+    await DatabaseProvider.db.insertCrusadeForceModel(crusadeForceModel);
 
     refreshPage();
     Navigator.pop(context);
