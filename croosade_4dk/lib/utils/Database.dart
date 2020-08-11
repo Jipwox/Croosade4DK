@@ -155,15 +155,17 @@ class DatabaseProvider{
     return crusadeCardModel;
   }
 
-  Future<List<CrusadeCardModel>> getCrusadeCards(int id) async {
+  Future<List<CrusadeCardModel>> getCrusadeCards(int forceId) async {
     final db = await database;
 
     var crusadeCards = await db.rawQuery(
-        'SELECT * FROM CRUSADE_CARD WHERE CRUSADE_CARD.ID = ?',
-        [id]
+        'SELECT * FROM CRUSADE_CARD WHERE CRUSADE_CARD.CRUSADE_FORCE_ID = ?',
+        [forceId]
     );
 
     List<CrusadeCardModel> cardModelList = List<CrusadeCardModel>();
+
+    print("getCrusadeCards DB method returned ${crusadeCards.length.toString()} cards.");
 
     crusadeCards.forEach((currentCard) {
       CrusadeCardModel crusadeCardModel = CrusadeCardModel.fromMap(currentCard);

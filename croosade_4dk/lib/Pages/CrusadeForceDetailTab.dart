@@ -54,7 +54,6 @@ class _CrusadeForceDetailTabState extends State<CrusadeForceDetailTab>  {
   @override
   Widget build(BuildContext context) {
     refreshPage();
-
     return FutureBuilder(
         future: retrieveModel(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

@@ -46,7 +46,7 @@ class _CrusadeCardListTabState extends State<CrusadeCardListTab> {
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => AddCrusadeCardPage(crusadeforceId: forceId)
+            builder: (context) => AddCrusadeCardPage(crusadeForceId: forceId)
         )
     );
 
