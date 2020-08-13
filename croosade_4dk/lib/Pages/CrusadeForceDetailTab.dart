@@ -28,7 +28,7 @@ class _CrusadeForceDetailTabState extends State<CrusadeForceDetailTab>  {
     crusadeForceModel.name = forceNameController.text;
     crusadeForceModel.faction = forceFactionController.text;
     crusadeForceModel.info = forceInfoController.text;
-    await DatabaseProvider.db.updateCrusaderForceModel(crusadeForceModel);
+    await DatabaseProvider.db.updateCrusadeForceModel(crusadeForceModel);
 
     refreshPage();
     Navigator.pop(context);

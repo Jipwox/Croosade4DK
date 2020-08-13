@@ -120,7 +120,7 @@ class DatabaseProvider{
     await db.delete('CRUSADE_FORCE');
   }
 
-  Future<void> updateCrusaderForceModel(CrusadeForceModel forceModel) async {
+  Future<void> updateCrusadeForceModel(CrusadeForceModel forceModel) async {
     final db = await database;
     await db.update('CRUSADE_FORCE', forceModel.toMap(),
         where: 'CRUSADE_FORCE.ID = ?',
@@ -165,8 +165,6 @@ class DatabaseProvider{
 
     List<CrusadeCardModel> cardModelList = List<CrusadeCardModel>();
 
-    print("getCrusadeCards DB method returned ${crusadeCards.length.toString()} cards.");
-
     crusadeCards.forEach((currentCard) {
       CrusadeCardModel crusadeCardModel = CrusadeCardModel.fromMap(currentCard);
       cardModelList.add(crusadeCardModel);
@@ -181,7 +179,7 @@ class DatabaseProvider{
                         [id]);
   }
 
-  Future<void> updateCrusaderCardModel(CrusadeCardModel cardModel) async {
+  Future<void> updateCrusadeCardModel(CrusadeCardModel cardModel) async {
     final db = await database;
     await db.update('CRUSADE_CARD', cardModel.toMap(),
         where: 'CRUSADE_CARD.ID = ?',

@@ -1,5 +1,6 @@
 import 'package:croosade_4dk/Pages/AddCrusadeCardPage.dart';
 import 'package:croosade_4dk/Pages/CrusadeForceDetailTab.dart';
+import 'package:croosade_4dk/Pages/ViewCrusadeCardPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeForceModel.dart';
@@ -38,7 +39,12 @@ class _CrusadeCardListTabState extends State<CrusadeCardListTab> {
   }
 
   void _navigateToViewCrusadeCardPage(BuildContext context, cardId) async{
-    print("tapped the card row");
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ViewCrusadeCardPage(cardId: cardId,)
+        )
+    );
     refreshPage();
   }
 
@@ -81,7 +87,7 @@ class _CrusadeCardListTabState extends State<CrusadeCardListTab> {
   }
 
   Widget _buildRow(CrusadeCardModel cardModel) {
-    String title = "${cardModel.name} / ${cardModel.powerRating}";
+    String title = "${cardModel.name}, PR: ${cardModel.powerRating}";
     return ListTile(
       title: Text(title),             // ... to here.
       onTap: () {

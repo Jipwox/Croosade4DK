@@ -25,7 +25,6 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
   TextEditingController cardWarlordTraitsController = new TextEditingController();
   TextEditingController cardRelicsController = new TextEditingController();
   TextEditingController cardOtherUpgradesController = new TextEditingController();
-  TextEditingController cardInfoController = new TextEditingController();
 
   void writeToDB(String cardName, String cardPowerRating, String cardBattleFieldRole,
                  String cardUnitType, String cardEquipment, String cardPsychicPowers, String cardWarlordTraits,
@@ -198,7 +197,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                     cardBattleFieldRoleController.text, cardUnitTypeController.text,
                     cardEquipmentController.text, cardPsychicPowersController.text,
                     cardWarlordTraitsController.text, cardRelicsController.text,
-                    cardOtherUpgradesController.text, cardInfoController.text)
+                    cardOtherUpgradesController.text, cardOtherUpgradesController.text)
               },
             ),
           ],

@@ -1,35 +1,26 @@
+import 'package:croosade_4dk/Models/CrusadeCardModel.dart';
 import 'package:flutter/material.dart';
-import '../Models/CrusadeForceModel.dart';
 import '../utils/Database.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'CrusadeForceDetailTab.dart';
-import 'CrusadeCardListTab.dart';
 import 'TapMeButton.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:croosade_4dk/Pages/CrusadeCardDetailTab.dart';
 
-class ViewCrusadeForcePage extends StatefulWidget {
-  final String title;
-  final int id;
-  ViewCrusadeForcePage({@required this.title, @required this.id});
+class ViewCrusadeCardPage extends StatefulWidget {
+  final int cardId;
+  ViewCrusadeCardPage({@required this.cardId});
 
   @override
-  _ViewCrusadeForceState createState() => _ViewCrusadeForceState();
+  _ViewCrusadeCardState createState() => _ViewCrusadeCardState();
 }
 
-class _ViewCrusadeForceState extends State<ViewCrusadeForcePage> {
+class _ViewCrusadeCardState extends State<ViewCrusadeCardPage>{
 
-  CrusadeForceModel forceModel;
+  CrusadeCardModel cardModel;
 
   @override
   void initState(){
     super.initState();
     retrieveModel();
-  }
-
-
-  Future<CrusadeForceModel> retrieveModel() async {
-    forceModel = await DatabaseProvider.db.getCrusadeForce(widget.id);
-
-    return forceModel;
   }
 
   void refreshPage(){
@@ -38,8 +29,14 @@ class _ViewCrusadeForceState extends State<ViewCrusadeForcePage> {
     });
   }
 
-  void updateForceModel(CrusadeForceModel crusadeForceModel) async {
-    await DatabaseProvider.db.updateCrusadeForceModel(crusadeForceModel);
+  Future<CrusadeCardModel> retrieveModel() async {
+    cardModel = await DatabaseProvider.db.getCrusadeCard(widget.cardId);
+
+    return cardModel;
+  }
+
+  void updateCardModel(CrusadeCardModel crusadeCardModel) async {
+    await DatabaseProvider.db.updateCrusadeCardModel(crusadeCardModel);
 
     refreshPage();
     Navigator.pop(context);
@@ -53,21 +50,19 @@ class _ViewCrusadeForceState extends State<ViewCrusadeForcePage> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.connectionState != ConnectionState.done) return new CircularProgressIndicator();
         return DefaultTabController(
-          length: 3,
+          length: 2,
           child: Scaffold(
-            appBar: AppBar(title: Text(widget.title),
+            appBar: AppBar(title: Text(cardModel.name),
               bottom: TabBar(
                 tabs: [
                   Tab(icon: Icon(Icons.toc),),
-                  Tab(icon: Icon(Icons.group_add)),
                   Tab(icon: new Icon(MdiIcons.sword)),
                 ],
               ),
             ),
             body: TabBarView(
               children: [
-                CrusadeForceDetailTab(forceModel: forceModel,),
-                CrusadeCardListTab(forceModel: forceModel,),
+                CrusadeCardDetailTab(cardModel: cardModel,),
                 CustomButton(
                   onPressed: () {
                     print("Tapped Me");
@@ -80,4 +75,5 @@ class _ViewCrusadeForceState extends State<ViewCrusadeForcePage> {
       },
     );
   }
+
 }
