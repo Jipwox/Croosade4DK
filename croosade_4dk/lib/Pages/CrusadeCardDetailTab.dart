@@ -116,7 +116,301 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
       future: retrieveModel(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.connectionState != ConnectionState.done) return new CircularProgressIndicator();
-        return Text("card detail tab for ${cardModel.name}");
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.only(top: 20.0),),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Name"),
+                    SizedBox(width: 100,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardNameController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Power Rating"),
+                    SizedBox(width: 55,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardPowerRatingController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Battlefield Role"),
+                    SizedBox(width: 45,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardBattleFieldRoleController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Unit Type"),
+                    SizedBox(width: 80,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardUnitTypeController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Equipment"),
+                    SizedBox(width: 72,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardEquipmentController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Psychic Powers"),
+                    SizedBox(width: 39,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardPsychicPowersController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Warlord Traits"),
+                    SizedBox(width: 50,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardWarlordTraitsController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Relics"),
+                    SizedBox(width: 101,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardRelicsController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Other Upgrades"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardOtherUpgradesController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Battle Honors"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardBattleHonorsController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Battle Scars"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardBattleScarsController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Experience Points"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardExperiencePointsController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Crusade Points"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardCrusadePointsController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Battles Played"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardBattlesPlayedController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Total Enemies Destroyed"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardTotalDestroyedController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Total Destroyed With Psychic"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardTotalDestroyedPsychicController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Total Destroyed With Ranged"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardTotalDestroyedRangedController,
+                      ),
+                    ),
+                  ]
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                    Text("Total Destroyed Melee"),
+                    SizedBox(width: 41,),
+                    Container(
+                      width: 250.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                        ),
+                        controller: cardTotalDestroyedMeleeController,
+                      ),
+                    ),
+                  ]
+              ),
+            ],
+          ),
+        );// This trailing comma makes auto-formatting nicer fo
       },
     );
   }
