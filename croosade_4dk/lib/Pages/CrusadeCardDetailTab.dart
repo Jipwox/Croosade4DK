@@ -302,7 +302,12 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
                     Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                     Text("Experience Points"),
                     SizedBox(width: 95,),
-                    Icon(Icons.arrow_back_ios),
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      onPressed: () {
+                        print('arrow button pressed');
+                      },
+                    ),
                     Container(
                       margin: EdgeInsets.all(15.0),
                       padding: EdgeInsets.all(15.0),
