@@ -301,15 +301,17 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
                   children: [
                     Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                     Text("Experience Points"),
-                    SizedBox(width: 41,),
+                    SizedBox(width: 95,),
+                    Icon(Icons.arrow_back_ios),
                     Container(
-                      width: 250.0,
-                      child: TextField(
-                        decoration: InputDecoration(
-                        ),
-                        controller: cardExperiencePointsController,
+                      margin: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black)
                       ),
+                      child: Text(cardModel.experiencePoints.toString()),
                     ),
+                    Icon(Icons.arrow_forward_ios),
                   ]
               ),
               Row(
@@ -317,15 +319,15 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
                   children: [
                     Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                     Text("Crusade Points"),
-                    SizedBox(width: 41,),
+                    SizedBox(width: 95,),
                     Container(
-                      width: 250.0,
-                      child: TextField(
-                        decoration: InputDecoration(
-                        ),
-                        controller: cardCrusadePointsController,
+                      margin: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black)
                       ),
-                    ),
+                      child: Text(cardModel.crusadePoints.toString()),
+                    )
                   ]
               ),
               Row(
@@ -333,15 +335,17 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
                   children: [
                     Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                     Text("Battles Played"),
-                    SizedBox(width: 41,),
+                    SizedBox(width: 95,),
+                    Icon(Icons.arrow_back_ios),
                     Container(
-                      width: 250.0,
-                      child: TextField(
-                        decoration: InputDecoration(
-                        ),
-                        controller: cardBattlesPlayedController,
+                      margin: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black)
                       ),
+                      child: Text(cardModel.battlesPlayed.toString()),
                     ),
+                    Icon(Icons.arrow_forward_ios),
                   ]
               ),
               Row(
@@ -349,63 +353,69 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
                   children: [
                     Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                     Text("Total Enemies Destroyed"),
-                    SizedBox(width: 41,),
+                    SizedBox(width: 95,),
                     Container(
-                      width: 250.0,
-                      child: TextField(
-                        decoration: InputDecoration(
-                        ),
-                        controller: cardTotalDestroyedController,
+                      margin: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black)
                       ),
-                    ),
+                      child: Text(cardModel.totalDestroyed.toString()),
+                    )
                   ]
               ),
               Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                    Text("Total Destroyed With Psychic"),
-                    SizedBox(width: 41,),
+                    Text("Total Destroyed w/ Psychic"),
+                    SizedBox(width: 95,),
+                    Icon(Icons.arrow_back_ios),
                     Container(
-                      width: 250.0,
-                      child: TextField(
-                        decoration: InputDecoration(
-                        ),
-                        controller: cardTotalDestroyedPsychicController,
+                      margin: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black)
                       ),
+                      child: Text(cardModel.totalDestroyedPsychic.toString()),
                     ),
+                    Icon(Icons.arrow_forward_ios),
                   ]
               ),
               Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                    Text("Total Destroyed With Ranged"),
-                    SizedBox(width: 41,),
+                    Text("Total Destroyed w/ Ranged"),
+                    SizedBox(width: 95,),
+                    Icon(Icons.arrow_back_ios),
                     Container(
-                      width: 250.0,
-                      child: TextField(
-                        decoration: InputDecoration(
-                        ),
-                        controller: cardTotalDestroyedRangedController,
+                      margin: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black)
                       ),
+                      child: Text(cardModel.totalDestroyedRanged.toString()),
                     ),
+                    Icon(Icons.arrow_forward_ios),
                   ]
               ),
               Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                    Text("Total Destroyed Melee"),
-                    SizedBox(width: 41,),
+                    Text("Total Destroyed w/ Melee"),
+                    SizedBox(width: 95,),
+                    Icon(Icons.arrow_back_ios),
                     Container(
-                      width: 250.0,
-                      child: TextField(
-                        decoration: InputDecoration(
-                        ),
-                        controller: cardTotalDestroyedMeleeController,
+                      margin: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black)
                       ),
+                      child: Text(cardModel.totalDestroyedMelee.toString()),
                     ),
+                    Icon(Icons.arrow_forward_ios),
                   ]
               ),
             ],
