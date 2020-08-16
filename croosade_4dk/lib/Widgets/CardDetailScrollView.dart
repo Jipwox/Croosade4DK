@@ -33,6 +33,7 @@ class CardDetailScrollView extends StatefulWidget {
 class _CardDetailScrollViewState extends State<CardDetailScrollView>{
 
   void updateCard (int exp){
+
     if(exp < 6){
       widget.cardModel.rank = "Battle-Ready";
     }
