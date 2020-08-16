@@ -32,6 +32,24 @@ class CardDetailScrollView extends StatefulWidget {
 
 class _CardDetailScrollViewState extends State<CardDetailScrollView>{
 
+  void updateCard (int exp){
+    if(exp < 6){
+      widget.cardModel.rank = "Battle-Ready";
+    }
+    else if (exp < 16){
+      widget.cardModel.rank = "Blooded";
+    }
+    else if (exp < 31){
+      widget.cardModel.rank = "Battle-Hardened";
+    }
+    else if (exp < 51){
+      widget.cardModel.rank = "Heroic";
+    }
+    else {
+      widget.cardModel.rank = "Legendary";
+    }
+  }
+
 
   @override
   Widget build(BuildContext context){
@@ -52,6 +70,18 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                     ),
                     controller: widget.cardNameController,
                   ),
+                ),
+              ]
+          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                Text("Rank"),
+                SizedBox(width: 100,),
+                Container(
+                  width: 250.0,
+                  child: Text(widget.cardModel.rank),
                 ),
               ]
           ),
@@ -244,6 +274,8 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   onPressed: () {
                     setState(() {
                       widget.cardModel.experiencePoints --;
+                      int exp = widget.cardModel.experiencePoints;
+                      updateCard(exp);
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                     });
                   },
@@ -261,6 +293,8 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   onPressed: () {
                     setState(() {
                       widget.cardModel.experiencePoints ++;
+                      int exp = widget.cardModel.experiencePoints;
+                      updateCard(exp);
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                     });
                   },
@@ -294,6 +328,9 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   onPressed: () {
                     setState(() {
                       widget.cardModel.battlesPlayed --;
+                      widget.cardModel.experiencePoints --;
+                      int exp = widget.cardModel.experiencePoints;
+                      updateCard(exp);
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                     });
                   },
@@ -311,6 +348,9 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   onPressed: () {
                     setState(() {
                       widget.cardModel.battlesPlayed ++;
+                      widget.cardModel.experiencePoints ++;
+                      int exp = widget.cardModel.experiencePoints;
+                      updateCard(exp);
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                     });
                   },
