@@ -14,9 +14,6 @@ class CardPowerRatingRow extends StatefulWidget {
 
 class _CardPowerRatingRowState extends State<CardPowerRatingRow>{
 
-  int getPowerRating(){
-    return widget.cardModel.powerRating;
-  }
 
   @override
   Widget build(BuildContext context){

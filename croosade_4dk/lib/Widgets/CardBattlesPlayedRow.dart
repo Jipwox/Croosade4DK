@@ -14,9 +14,6 @@ class CardBattlesPlayedRow extends StatefulWidget {
 
 class _CardBattlesPlayedRowState extends State<CardBattlesPlayedRow>{
 
-  int getBattlesPlayed(){
-    return widget.cardModel.battlesPlayed;
-  }
 
   @override
   Widget build(BuildContext context){

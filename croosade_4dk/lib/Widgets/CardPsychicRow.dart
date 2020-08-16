@@ -14,9 +14,6 @@ class CardPsychicRow extends StatefulWidget {
 
 class _CardPsychicRowState extends State<CardPsychicRow>{
 
-  int getTotalDestroyedPsychic(){
-    return widget.cardModel.totalDestroyedPsychic;
-  }
 
   @override
   Widget build(BuildContext context){

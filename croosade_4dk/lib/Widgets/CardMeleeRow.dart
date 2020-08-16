@@ -14,9 +14,6 @@ class CardMeleeRow extends StatefulWidget {
 
 class _CardMeleeRowState extends State<CardMeleeRow>{
 
-  int getTotalDestroyedMelee(){
-    return widget.cardModel.totalDestroyedMelee;
-  }
 
   @override
   Widget build(BuildContext context){

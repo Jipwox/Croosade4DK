@@ -14,9 +14,6 @@ class CardExpRow extends StatefulWidget {
 
 class _CardExpRowState extends State<CardExpRow>{
 
-  int getExp(){
-    return widget.cardModel.experiencePoints;
-  }
 
   @override
   Widget build(BuildContext context){

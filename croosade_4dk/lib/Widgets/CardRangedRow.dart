@@ -14,9 +14,6 @@ class CardRangedRow extends StatefulWidget {
 
 class _CardRangedRowState extends State<CardRangedRow>{
 
-  int getTotalDestroyedRanged(){
-    return widget.cardModel.totalDestroyedRanged;
-  }
 
   @override
   Widget build(BuildContext context){
