@@ -31,6 +31,7 @@ class _CardExpRowState extends State<CardExpRow>{
             onPressed: () {
               setState(() {
                 widget.cardModel.experiencePoints --;
+                DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
               });
             },
           ),

@@ -31,6 +31,7 @@ class _CardPowerRatingRowState extends State<CardPowerRatingRow>{
             onPressed: () {
               setState(() {
                 widget.cardModel.powerRating --;
+                DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
               });
             },
           ),

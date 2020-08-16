@@ -31,6 +31,7 @@ class _CardMeleeRowState extends State<CardMeleeRow>{
             onPressed: () {
               setState(() {
                 widget.cardModel.totalDestroyedMelee --;
+                DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
               });
             },
           ),

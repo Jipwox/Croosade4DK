@@ -31,6 +31,7 @@ class _CardPsychicRowState extends State<CardPsychicRow>{
             onPressed: () {
               setState(() {
                 widget.cardModel.totalDestroyedPsychic --;
+                DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
               });
             },
           ),

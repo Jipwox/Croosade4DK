@@ -31,6 +31,7 @@ class _CardBattlesPlayedRowState extends State<CardBattlesPlayedRow>{
             onPressed: () {
               setState(() {
                 widget.cardModel.battlesPlayed --;
+                DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
               });
             },
           ),

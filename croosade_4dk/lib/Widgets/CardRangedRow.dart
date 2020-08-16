@@ -31,6 +31,7 @@ class _CardRangedRowState extends State<CardRangedRow>{
             onPressed: () {
               setState(() {
                 widget.cardModel.totalDestroyedRanged --;
+                DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
               });
             },
           ),
