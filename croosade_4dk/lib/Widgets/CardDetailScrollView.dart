@@ -51,10 +51,35 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
     }
   }
 
-  void updateExp (int exp, int totalDestroyed, int offset){
-    if(totalDestroyed % 3 == 0){
-      widget.cardModel.experiencePoints += 1 * offset;
+  void updateExp (int combatSwitch, int offset){
+
+    int oldTotalDestroyed  = widget.cardModel.totalDestroyed;
+
+    switch(combatSwitch){
+      case 0: widget.cardModel.totalDestroyedPsychic += 1 * offset;
+      break;
+
+      case 1: widget.cardModel.totalDestroyedRanged += 1 * offset;
+      break;
+
+      case 2: widget.cardModel.totalDestroyedMelee += 1 * offset;
+      break;
     }
+
+    int totalDestroyed = widget.cardModel.totalDestroyedPsychic + widget.cardModel.totalDestroyedRanged + widget.cardModel.totalDestroyedMelee;
+    widget.cardModel.totalDestroyed = totalDestroyed;
+
+    if(oldTotalDestroyed > totalDestroyed && oldTotalDestroyed % 3 == 0){
+      widget.cardModel.experiencePoints--;
+    }
+    if(oldTotalDestroyed < totalDestroyed && totalDestroyed % 3 == 0){
+      widget.cardModel.experiencePoints++;
+    }
+
+    updateRank(widget.cardModel.experiencePoints);
+
+    DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+
   }
 
 
@@ -393,10 +418,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   onPressed: () {
                     setState(() {
                       if(widget.cardModel.totalDestroyedPsychic <= 0) return;
-                      widget.cardModel.totalDestroyedPsychic --;
-                      widget.cardModel.totalDestroyed = widget.cardModel.totalDestroyedPsychic + widget.cardModel.totalDestroyedRanged + widget.cardModel.totalDestroyedMelee;
-                      updateExp(widget.cardModel.experiencePoints, widget.cardModel.totalDestroyed, -1);
-                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                      updateExp(0, -1);
                     });
                   },
                 ),
@@ -412,10 +434,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   icon: Icon(Icons.arrow_forward_ios),
                   onPressed: () {
                     setState(() {
-                      widget.cardModel.totalDestroyedPsychic ++;
-                      widget.cardModel.totalDestroyed = widget.cardModel.totalDestroyedPsychic + widget.cardModel.totalDestroyedRanged + widget.cardModel.totalDestroyedMelee;
-                      updateExp(widget.cardModel.experiencePoints, widget.cardModel.totalDestroyed, 1);
-                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                      updateExp(0, 1);
                     });
                   },
                 ),
@@ -432,9 +451,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   onPressed: () {
                     setState(() {
                       if(widget.cardModel.totalDestroyedRanged <= 0) return;
-                      widget.cardModel.totalDestroyedRanged --;
-                      widget.cardModel.totalDestroyed = widget.cardModel.totalDestroyedPsychic + widget.cardModel.totalDestroyedRanged + widget.cardModel.totalDestroyedMelee;
-                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                      updateExp(1, -1);
                     });
                   },
                 ),
@@ -450,9 +467,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   icon: Icon(Icons.arrow_forward_ios),
                   onPressed: () {
                     setState(() {
-                      widget.cardModel.totalDestroyedRanged ++;
-                      widget.cardModel.totalDestroyed = widget.cardModel.totalDestroyedPsychic + widget.cardModel.totalDestroyedRanged + widget.cardModel.totalDestroyedMelee;
-                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                      updateExp(1, 1);
                     });
                   },
                 ),
@@ -469,9 +484,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   onPressed: () {
                     setState(() {
                       if(widget.cardModel.totalDestroyedMelee <= 0) return;
-                      widget.cardModel.totalDestroyedMelee --;
-                      widget.cardModel.totalDestroyed = widget.cardModel.totalDestroyedPsychic + widget.cardModel.totalDestroyedRanged + widget.cardModel.totalDestroyedMelee;
-                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                      updateExp(2, -1);
                     });
                   },
                 ),
@@ -487,9 +500,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   icon: Icon(Icons.arrow_forward_ios),
                   onPressed: () {
                     setState(() {
-                      widget.cardModel.totalDestroyedMelee ++;
-                      widget.cardModel.totalDestroyed = widget.cardModel.totalDestroyedPsychic + widget.cardModel.totalDestroyedRanged + widget.cardModel.totalDestroyedMelee;
-                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                      updateExp(2, 1);
                     });
                   },
                 ),
@@ -499,4 +510,5 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
       ),
     );
   }
+
 }
