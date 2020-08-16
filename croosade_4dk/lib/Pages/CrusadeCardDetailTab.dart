@@ -1,6 +1,7 @@
 import '../utils/Database.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeCardModel.dart';
+import 'package:croosade_4dk/Widgets/CardExpRow.dart';
 
 class CrusadeCardDetailTab extends StatefulWidget {
   final CrusadeCardModel cardModel;
@@ -34,6 +35,10 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
   TextEditingController cardTotalDestroyedMeleeController = new TextEditingController();
   TextEditingController cardInfoController = new TextEditingController();
 
+  CardExpRow expRow;
+
+
+
   CrusadeCardModel cardModel;
 
   Future<CrusadeCardModel> retrieveModel() async {
@@ -44,7 +49,6 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
     cardBattleHonorsController.text = cardModel.battleHonors;
     cardBattleScarsController.text = cardModel.battleScars;
     cardPowerRatingController.text = cardModel.powerRating.toString();
-    cardExperiencePointsController.text = cardModel.experiencePoints.toString();
     cardCrusadePointsController.text = cardModel.crusadePoints.toString();
     cardBattleFieldRoleController.text = cardModel.battlefieldRole;
     cardUnitTypeController.text = cardModel.unitType;
@@ -59,6 +63,8 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
     cardTotalDestroyedRangedController.text = cardModel.totalDestroyedRanged.toString();
     cardTotalDestroyedMeleeController.text = cardModel.totalDestroyedMelee.toString();
     cardInfoController.text = cardModel.info;
+
+    expRow = CardExpRow(cardModel: cardModel);
 
 
     print("Inside retrieveModel()");
@@ -80,7 +86,6 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
     cardModel.battleHonors = cardBattleHonorsController.text;
     cardModel.battleScars = cardBattleScarsController.text;
     cardModel.powerRating = int.parse(cardPowerRatingController.text);
-    cardModel.experiencePoints = int.parse(cardExperiencePointsController.text);
     cardModel.crusadePoints = int.parse(cardCrusadePointsController.text);
     cardModel.battlefieldRole = cardBattleFieldRoleController.text;
     cardModel.unitType = cardUnitTypeController.text;
@@ -98,9 +103,6 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
 
 
     await DatabaseProvider.db.updateCrusadeCardModel(crusadeCardModel);
-
-    refreshPage();
-    Navigator.pop(context);
   }
 
   void refreshPage(){
@@ -111,7 +113,6 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
 
   @override
   Widget build(BuildContext context) {
-    refreshPage();
     return FutureBuilder(
       future: retrieveModel(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -296,29 +297,7 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
                     ),
                   ]
               ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                    Text("Experience Points"),
-                    SizedBox(width: 95,),
-                    IconButton(
-                      icon: Icon(Icons.arrow_back_ios),
-                      onPressed: () {
-                        print('arrow button pressed');
-                      },
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(15.0),
-                      padding: EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)
-                      ),
-                      child: Text(cardModel.experiencePoints.toString()),
-                    ),
-                    Icon(Icons.arrow_forward_ios),
-                  ]
-              ),
+              expRow,
               Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
