@@ -1,3 +1,9 @@
+import 'package:croosade_4dk/Widgets/CardBattlesPlayedRow.dart';
+import 'package:croosade_4dk/Widgets/CardMeleeRow.dart';
+import 'package:croosade_4dk/Widgets/CardPowerRatingRow.dart';
+import 'package:croosade_4dk/Widgets/CardPsychicRow.dart';
+import 'package:croosade_4dk/Widgets/CardRangedRow.dart';
+
 import '../utils/Database.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeCardModel.dart';
@@ -18,7 +24,6 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
   TextEditingController cardRankController = new TextEditingController();
   TextEditingController cardBattleHonorsController = new TextEditingController();
   TextEditingController cardBattleScarsController = new TextEditingController();
-  TextEditingController cardPowerRatingController = new TextEditingController();
   TextEditingController cardExperiencePointsController = new TextEditingController();
   TextEditingController cardCrusadePointsController = new TextEditingController();
   TextEditingController cardBattleFieldRoleController = new TextEditingController();
@@ -28,14 +33,15 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
   TextEditingController cardWarlordTraitsController = new TextEditingController();
   TextEditingController cardRelicsController = new TextEditingController();
   TextEditingController cardOtherUpgradesController = new TextEditingController();
-  TextEditingController cardBattlesPlayedController = new TextEditingController();
   TextEditingController cardTotalDestroyedController = new TextEditingController();
-  TextEditingController cardTotalDestroyedPsychicController = new TextEditingController();
-  TextEditingController cardTotalDestroyedRangedController = new TextEditingController();
-  TextEditingController cardTotalDestroyedMeleeController = new TextEditingController();
   TextEditingController cardInfoController = new TextEditingController();
 
+  CardPowerRatingRow powerRatingRow;
   CardExpRow expRow;
+  CardBattlesPlayedRow battlesPlayedRow;
+  CardPsychicRow psychicRow;
+  CardRangedRow rangedRow;
+  CardMeleeRow meleeRow;
 
 
 
@@ -48,7 +54,6 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
     cardRankController.text = cardModel.rank;
     cardBattleHonorsController.text = cardModel.battleHonors;
     cardBattleScarsController.text = cardModel.battleScars;
-    cardPowerRatingController.text = cardModel.powerRating.toString();
     cardCrusadePointsController.text = cardModel.crusadePoints.toString();
     cardBattleFieldRoleController.text = cardModel.battlefieldRole;
     cardUnitTypeController.text = cardModel.unitType;
@@ -57,14 +62,15 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
     cardWarlordTraitsController.text = cardModel.warlordTraits;
     cardRelicsController.text = cardModel.relics;
     cardOtherUpgradesController.text = cardModel.otherUpgrades;
-    cardBattlesPlayedController.text = cardModel.battlesPlayed.toString();
     cardTotalDestroyedController.text = cardModel.totalDestroyed.toString();
-    cardTotalDestroyedPsychicController.text = cardModel.totalDestroyedPsychic.toString();
-    cardTotalDestroyedRangedController.text = cardModel.totalDestroyedRanged.toString();
-    cardTotalDestroyedMeleeController.text = cardModel.totalDestroyedMelee.toString();
     cardInfoController.text = cardModel.info;
 
+    powerRatingRow = CardPowerRatingRow(cardModel: cardModel);
     expRow = CardExpRow(cardModel: cardModel);
+    battlesPlayedRow = CardBattlesPlayedRow(cardModel: cardModel);
+    psychicRow = CardPsychicRow(cardModel: cardModel);
+    rangedRow = CardRangedRow(cardModel: cardModel);
+    meleeRow = CardMeleeRow(cardModel: cardModel);
 
 
     print("Inside retrieveModel()");
@@ -85,7 +91,6 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
     cardModel.rank = cardRankController.text;
     cardModel.battleHonors = cardBattleHonorsController.text;
     cardModel.battleScars = cardBattleScarsController.text;
-    cardModel.powerRating = int.parse(cardPowerRatingController.text);
     cardModel.crusadePoints = int.parse(cardCrusadePointsController.text);
     cardModel.battlefieldRole = cardBattleFieldRoleController.text;
     cardModel.unitType = cardUnitTypeController.text;
@@ -94,11 +99,7 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
     cardModel.warlordTraits = cardWarlordTraitsController.text;
     cardModel.relics = cardRelicsController.text;
     cardModel.otherUpgrades = cardOtherUpgradesController.text;
-    cardModel.battlesPlayed = int.parse(cardBattlesPlayedController.text);
     cardModel.totalDestroyed = int.parse(cardTotalDestroyedController.text);
-    cardModel.totalDestroyedPsychic = int.parse(cardTotalDestroyedPsychicController.text);
-    cardModel.totalDestroyedRanged = int.parse(cardTotalDestroyedRangedController.text);
-    cardModel.totalDestroyedMelee = int.parse(cardTotalDestroyedMeleeController.text);
     cardModel.info = cardInfoController.text;
 
 
@@ -137,22 +138,7 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
                     ),
                   ]
               ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                    Text("Power Rating"),
-                    SizedBox(width: 55,),
-                    Container(
-                      width: 250.0,
-                      child: TextField(
-                        decoration: InputDecoration(
-                        ),
-                        controller: cardPowerRatingController,
-                      ),
-                    ),
-                  ]
-              ),
+              powerRatingRow,
               Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -314,24 +300,7 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
                     )
                   ]
               ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                    Text("Battles Played"),
-                    SizedBox(width: 95,),
-                    Icon(Icons.arrow_back_ios),
-                    Container(
-                      margin: EdgeInsets.all(15.0),
-                      padding: EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)
-                      ),
-                      child: Text(cardModel.battlesPlayed.toString()),
-                    ),
-                    Icon(Icons.arrow_forward_ios),
-                  ]
-              ),
+              battlesPlayedRow,
               Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -348,60 +317,9 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
                     )
                   ]
               ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                    Text("Total Destroyed w/ Psychic"),
-                    SizedBox(width: 95,),
-                    Icon(Icons.arrow_back_ios),
-                    Container(
-                      margin: EdgeInsets.all(15.0),
-                      padding: EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)
-                      ),
-                      child: Text(cardModel.totalDestroyedPsychic.toString()),
-                    ),
-                    Icon(Icons.arrow_forward_ios),
-                  ]
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                    Text("Total Destroyed w/ Ranged"),
-                    SizedBox(width: 95,),
-                    Icon(Icons.arrow_back_ios),
-                    Container(
-                      margin: EdgeInsets.all(15.0),
-                      padding: EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)
-                      ),
-                      child: Text(cardModel.totalDestroyedRanged.toString()),
-                    ),
-                    Icon(Icons.arrow_forward_ios),
-                  ]
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                    Text("Total Destroyed w/ Melee"),
-                    SizedBox(width: 95,),
-                    Icon(Icons.arrow_back_ios),
-                    Container(
-                      margin: EdgeInsets.all(15.0),
-                      padding: EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)
-                      ),
-                      child: Text(cardModel.totalDestroyedMelee.toString()),
-                    ),
-                    Icon(Icons.arrow_forward_ios),
-                  ]
-              ),
+              psychicRow,
+              rangedRow,
+              meleeRow,
             ],
           ),
         );// This trailing comma makes auto-formatting nicer fo
