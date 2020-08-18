@@ -24,6 +24,7 @@ class CrusadeCardModel{
   int totalDestroyedRanged;
   int totalDestroyedMelee;
   String info = "";
+  int timesMarkedForGreatness;
 
   CrusadeCardModel(int crusadeForceId, String name, int powerRating, String battleFieldRole,
                     String unitType, String equipment, String psychicPowers, String warlordTraits,
@@ -48,6 +49,7 @@ class CrusadeCardModel{
     this.totalDestroyedPsychic = 0;
     this.totalDestroyedRanged = 0;
     this.totalDestroyedMelee = 0;
+    this.timesMarkedForGreatness = 0;
   }
 
   Map<String, dynamic> toMap(){
@@ -74,6 +76,7 @@ class CrusadeCardModel{
       'TOTAL_DESTROYED_RANGED' : totalDestroyedRanged,
       'TOTAL_DESTROYED_MELEE' : totalDestroyedMelee,
       'INFO' : info,
+      'TIMES_MARKED_FOR_GREATNESS' : timesMarkedForGreatness,
 
     };
 
@@ -107,6 +110,7 @@ class CrusadeCardModel{
     totalDestroyedRanged = map['TOTAL_DESTROYED_RANGED'];
     totalDestroyedMelee = map['TOTAL_DESTROYED_MELEE'];
     info = map['INFO'];
+    timesMarkedForGreatness = map['TIMES_MARKED_FOR_GREATNESS'];
   }
 
   //BattleHonors

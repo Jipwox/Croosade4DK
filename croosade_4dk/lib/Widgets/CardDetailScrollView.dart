@@ -110,8 +110,9 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Rank"),
-                SizedBox(width: 100,),
+                SizedBox(width: 92,),
                 Container(
+                  padding: EdgeInsets.all(15.0),
                   width: 250.0,
                   child: Text(widget.cardModel.rank),
                 ),
@@ -268,7 +269,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battle Honors"),
-                SizedBox(width: 41,),
+                SizedBox(width: 53,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -284,7 +285,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battle Scars"),
-                SizedBox(width: 41,),
+                SizedBox(width: 63,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -300,7 +301,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Experience Points"),
-                SizedBox(width: 95,),
+                SizedBox(width: 77,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -339,7 +340,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Crusade Points"),
-                SizedBox(width: 95,),
+                SizedBox(width: 142,),
                 Container(
                   margin: EdgeInsets.all(15.0),
                   padding: EdgeInsets.all(15.0),
@@ -355,7 +356,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battles Played"),
-                SizedBox(width: 95,),
+                SizedBox(width: 101,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -396,7 +397,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Total Enemies Destroyed"),
-                SizedBox(width: 95,),
+                SizedBox(width: 84,),
                 Container(
                   margin: EdgeInsets.all(15.0),
                   padding: EdgeInsets.all(15.0),
@@ -412,7 +413,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Total Destroyed w/ Psychic"),
-                SizedBox(width: 45,),
+                SizedBox(width: 21,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -445,7 +446,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Total Destroyed w/ Ranged"),
-                SizedBox(width: 45,),
+                SizedBox(width: 22,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -478,7 +479,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Total Destroyed w/ Melee"),
-                SizedBox(width: 45,),
+                SizedBox(width: 31,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -501,6 +502,45 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   onPressed: () {
                     setState(() {
                       updateExp(2, 1);
+                    });
+                  },
+                ),
+              ]
+          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                Text("Times Marked for Greatness"),
+                SizedBox(width: 14,),
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    setState(() {
+                      if(widget.cardModel.timesMarkedForGreatness <= 0) return;
+                      widget.cardModel.timesMarkedForGreatness--;
+                      widget.cardModel.experiencePoints -= 3;
+                      updateRank(widget.cardModel.experiencePoints);
+                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                    });
+                  },
+                ),
+                Container(
+                  margin: EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black)
+                  ),
+                  child: Text(widget.cardModel.timesMarkedForGreatness.toString()),
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {
+                    setState(() {
+                      widget.cardModel.timesMarkedForGreatness++;
+                      widget.cardModel.experiencePoints += 3;
+                      updateRank(widget.cardModel.experiencePoints);
+                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                     });
                   },
                 ),

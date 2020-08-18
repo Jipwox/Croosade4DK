@@ -87,7 +87,7 @@ class _CrusadeCardListTabState extends State<CrusadeCardListTab> {
   }
 
   Widget _buildRow(CrusadeCardModel cardModel) {
-    String title = "${cardModel.name}, PR: ${cardModel.powerRating}";
+    String title = "${cardModel.name} / PR: ${cardModel.powerRating} / ${cardModel.rank}";
     return ListTile(
       title: Text(title),             // ... to here.
       onTap: () {
