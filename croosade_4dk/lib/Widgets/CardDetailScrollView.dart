@@ -546,6 +546,28 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                 ),
               ]
           ),
+          RaisedButton(
+            child: Text("Test popup button"),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog (
+                    title: Text("TestPopup"),
+                    content: Text("TestContent"),
+                    actions: [
+                      FlatButton(
+                        child: Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
+                        },
+                      ),
+                    ],
+                  );
+                }
+              );
+            },
+          ),
         ],
       ),
     );
