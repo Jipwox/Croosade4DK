@@ -32,6 +32,7 @@ class CardDetailScrollView extends StatefulWidget {
 
 class _CardDetailScrollViewState extends State<CardDetailScrollView>{
 
+
   void updateRank (int exp){
 
     if(exp < 6){
@@ -271,12 +272,9 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                 Text("Battle Honors"),
                 SizedBox(width: 53,),
                 Container(
+                  padding: EdgeInsets.all(15.0),
                   width: 250.0,
-                  child: TextField(
-                    decoration: InputDecoration(
-                    ),
-                    controller: widget.cardBattleHonorsController,
-                  ),
+                  child: Text(widget.cardModel.battleHonors),
                 ),
               ]
           ),
@@ -548,8 +546,9 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
           ),
           RaisedButton(
             child: Text("Test popup button"),
-            onPressed: () {
+            onPressed: (){
               showDialog(
+                barrierDismissible: true,
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog (
@@ -565,7 +564,14 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                     ],
                   );
                 }
-              );
+              ).then((value) => {
+                setState(() {
+                  widget.cardModel.addBattleHonor("TestBattlehonor");
+                  //widget.cardModel.battleHonors = "";
+                  print("BattleHonors: ${widget.cardModel.battleHonors}");
+                  DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                })
+              });
             },
           ),
         ],

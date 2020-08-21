@@ -119,7 +119,15 @@ class CrusadeCardModel{
   }
 
   void addBattleHonor(String battleHonor){
-    List<String> battleHonorList = json.decode(battleHonors);
+    List<String> battleHonorList;
+    try{
+      battleHonorList = (jsonDecode(battleHonors) as List<dynamic>).cast<String>();
+    }
+    catch(e){
+      battleHonors = json.encode(new List<String>());
+      battleHonorList = (jsonDecode(battleHonors) as List<dynamic>).cast<String>();
+    }
+
     battleHonorList.add(battleHonor);
     battleHonors = json.encode(battleHonorList);
   }
