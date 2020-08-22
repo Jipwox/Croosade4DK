@@ -32,6 +32,25 @@ class CardDetailScrollView extends StatefulWidget {
 
 class _CardDetailScrollViewState extends State<CardDetailScrollView>{
 
+  bool eligibleForHonor(){
+    int honorCount = widget.cardModel.getBattleHonors().length;
+    int exp = widget.cardModel.experiencePoints;
+    if(exp > 5 && exp < 16 && honorCount < 1){
+      return true;
+    }
+    else if(exp > 15 && exp < 31 && honorCount < 2){
+      return true;
+    }
+    else if(exp > 30 && exp < 51 && honorCount < 3){
+      return true;
+    }
+    else if (exp > 50 && honorCount < 4){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
 
   void updateRank (int exp){
 
@@ -305,7 +324,10 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.add),
+                      icon: Icon(
+                        Icons.add,
+                        color: eligibleForHonor()? Colors.blue : Colors.black,
+                      ),
                       onPressed: (){
                         TextEditingController bhController = new TextEditingController();
                         showDialog(
@@ -375,6 +397,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                                   setState(() {
                                     widget.cardModel.removeBattleScar(scar);
                                     widget.cardModel.crusadePoints ++;
+                                    widget.cardModel.crusadePoints = 0;
                                     DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                                   });
                                 },
@@ -417,7 +440,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                           setState(() {
                             if(bsController.text.length <= 0) return;
                             widget.cardModel.addBattleScar(bsController.text);
-                            if(widget.cardModel.crusadePoints > 0) widget.cardModel.crusadePoints --;
+                            widget.cardModel.crusadePoints --;
                             DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                           })
                         });
@@ -495,6 +518,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                       if(widget.cardModel.battlesPlayed <= 0) return;
                       widget.cardModel.battlesPlayed --;
                       widget.cardModel.experiencePoints --;
+                      if(widget.cardModel.experiencePoints < 0) widget.cardModel.experiencePoints = 0;
                       int exp = widget.cardModel.experiencePoints;
                       updateRank(exp);
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
@@ -651,6 +675,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                       if(widget.cardModel.timesMarkedForGreatness <= 0) return;
                       widget.cardModel.timesMarkedForGreatness--;
                       widget.cardModel.experiencePoints -= 3;
+                      if(widget.cardModel.experiencePoints < 0) widget.cardModel.experiencePoints = 0;
                       updateRank(widget.cardModel.experiencePoints);
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                     });
