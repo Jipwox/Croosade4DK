@@ -34,7 +34,8 @@ class DatabaseProvider{
                   REQUISITION_POINTS INTEGER,
                   SUPPLY_LIMIT INTEGER,
                   SUPPLY_USED INTEGER,
-                  INFO TEXT
+                  INFO TEXT,
+                  IMAGE_PATH TEXT
                   )
           ''');
           await database.execute('''
@@ -92,10 +93,8 @@ class DatabaseProvider{
   Future<List<CrusadeForceModel>> getCrusadeForces() async {
     final db = await database;
 
-    var crusadeForces = await db.query(
-      'CRUSADE_FORCE',
-        columns: ['ID', 'NAME', 'FACTION', 'BATTLE_TALLY', 'BATTLES_WON',
-                'REQUISITION_POINTS', 'SUPPLY_LIMIT', 'SUPPLY_USED', 'INFO']
+    var crusadeForces = await db.rawQuery(
+        'SELECT * FROM CRUSADE_FORCE'
     );
 
     List<CrusadeForceModel> forceModelList = List<CrusadeForceModel>();

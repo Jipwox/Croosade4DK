@@ -11,6 +11,7 @@ class CrusadeForceModel {
   int supplyLimit;
   int supplyUsed;
   String info;
+  String imagePath = "";
 
   CrusadeForceModel(String name, String faction) {
     this.name = name;
@@ -33,7 +34,8 @@ class CrusadeForceModel {
       'REQUISITION_POINTS' : requisitionPoints,
       'SUPPLY_LIMIT' : supplyLimit,
       'SUPPLY_USED' : supplyUsed,
-      'INFO' : info
+      'INFO' : info,
+      'IMAGE_PATH' : imagePath,
     };
 
     if(id != null){
@@ -53,7 +55,7 @@ class CrusadeForceModel {
     supplyLimit = map['SUPPLY_LIMIT'];
     supplyUsed = map['SUPPLY_USED'];
     info = map['INFO'];
-
+    imagePath = map['IMAGE_PATH'];
   }
 
 }

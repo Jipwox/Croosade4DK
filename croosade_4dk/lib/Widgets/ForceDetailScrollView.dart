@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../Models/CrusadeForceModel.dart';
 import '../utils/Database.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class ForceDetailScrollView extends StatefulWidget {
   final CrusadeForceModel forceModel;
@@ -16,6 +18,49 @@ class ForceDetailScrollView extends StatefulWidget {
 }
 
 class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
+
+  String _imageFilePath;
+  PickedFile _imageFile;
+  ImagePicker imagePicker = new ImagePicker();
+
+
+  Future getImage() async{
+    var pickedImage = await imagePicker.getImage(source: ImageSource.gallery);
+    setState(() {
+      _imageFile = pickedImage;
+      _imageFilePath = _imageFile.path;
+      widget.forceModel.imagePath = _imageFilePath;
+      DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Start listening to changes.
+    widget.forceNameController.addListener(_updateFromControllers);
+    widget.forceFactionController.addListener(_updateFromControllers);
+    widget.forceInfoController.addListener(_updateFromControllers);
+
+    _imageFilePath = widget.forceModel.imagePath;
+  }
+
+  @override
+  void dispose(){
+    widget.forceNameController.dispose();
+    widget.forceFactionController.dispose();
+    widget.forceInfoController.dispose();
+    super.dispose();
+  }
+
+  _updateFromControllers(){
+    widget.forceModel.name = widget.forceNameController.text;
+    widget.forceModel.faction = widget.forceFactionController.text;
+    widget.forceModel.info =  widget.forceInfoController.text;
+
+    DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+  }
 
   @override
   Widget build(BuildContext context){
@@ -66,7 +111,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battle Tally"),
-                SizedBox(width: 100,),
+                SizedBox(width: 85,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -101,7 +146,17 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battles Won"),
-                SizedBox(width: 95,),
+                SizedBox(width: 80,),
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    setState(() {
+                      if(widget.forceModel.battlesWon <= 0) return;
+                      widget.forceModel.battlesWon --;
+                      DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+                    });
+                  },
+                ),
                 Container(
                   margin: EdgeInsets.all(15.0),
                   padding: EdgeInsets.all(15.0),
@@ -109,7 +164,16 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
                       border: Border.all(color: Colors.black)
                   ),
                   child: Text(widget.forceModel.battlesWon.toString()),
-                )
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {
+                    setState(() {
+                      widget.forceModel.battlesWon ++;
+                      DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+                    });
+                  },
+                ),
               ]
           ),
           Row(
@@ -117,7 +181,17 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Requisition Points"),
-                SizedBox(width: 57,),
+                SizedBox(width: 42,),
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    setState(() {
+                      if(widget.forceModel.requisitionPoints <= 0) return;
+                      widget.forceModel.requisitionPoints --;
+                      DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+                    });
+                  },
+                ),
                 Container(
                   margin: EdgeInsets.all(15.0),
                   padding: EdgeInsets.all(15.0),
@@ -125,7 +199,16 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
                       border: Border.all(color: Colors.black)
                   ),
                   child: Text(widget.forceModel.requisitionPoints.toString()),
-                )
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {
+                    setState(() {
+                      widget.forceModel.requisitionPoints ++;
+                      DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+                    });
+                  },
+                ),
               ]
           ),
           Row(
@@ -133,7 +216,17 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Supply Limit"),
-                SizedBox(width: 93,),
+                SizedBox(width: 78,),
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    setState(() {
+                      if(widget.forceModel.supplyLimit <= 0) return;
+                      widget.forceModel.supplyLimit --;
+                      DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+                    });
+                  },
+                ),
                 Container(
                   margin: EdgeInsets.all(15.0),
                   padding: EdgeInsets.all(15.0),
@@ -141,7 +234,16 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
                       border: Border.all(color: Colors.black)
                   ),
                   child: Text(widget.forceModel.supplyLimit.toString()),
-                )
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {
+                    setState(() {
+                      widget.forceModel.supplyLimit ++;
+                      DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+                    });
+                  },
+                ),
               ]
           ),
           Row(
@@ -149,7 +251,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Supply Used"),
-                SizedBox(width: 94,),
+                SizedBox(width: 126,),
                 Container(
                   margin: EdgeInsets.all(15.0),
                   padding: EdgeInsets.all(15.0),
