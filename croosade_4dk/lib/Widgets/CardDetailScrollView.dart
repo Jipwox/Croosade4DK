@@ -91,6 +91,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
 
     if(oldTotalDestroyed > totalDestroyed && oldTotalDestroyed % 3 == 0){
       widget.cardModel.experiencePoints--;
+      if(widget.cardModel.experiencePoints < 0) widget.cardModel.experiencePoints = 0;
     }
     if(oldTotalDestroyed < totalDestroyed && totalDestroyed % 3 == 0){
       widget.cardModel.experiencePoints++;
@@ -312,7 +313,10 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                                 onPressed: () {
                                   setState(() {
                                     widget.cardModel.removeBattleHonor(honor);
-                                    if(widget.cardModel.crusadePoints > 0) widget.cardModel.crusadePoints --;
+                                    if(widget.cardModel.crusadePoints > 0){
+                                      if(widget.cardModel.powerRating > 10) widget.cardModel.crusadePoints --;
+                                      widget.cardModel.crusadePoints --;
+                                    }
                                     DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                                   });
                                 },
@@ -358,6 +362,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                           setState(() {
                             if(bhController.text.length <= 0) return;
                             widget.cardModel.addBattleHonor(bhController.text);
+                            if(widget.cardModel.powerRating > 10) widget.cardModel.crusadePoints ++;
                             widget.cardModel.crusadePoints ++;
                             DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                           })
@@ -462,6 +467,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                     setState(() {
                       if(widget.cardModel.experiencePoints <= 0) return;
                       widget.cardModel.experiencePoints --;
+                      if(widget.cardModel.experiencePoints < 0) widget.cardModel.experiencePoints = 0;
                       int exp = widget.cardModel.experiencePoints;
                       updateRank(exp);
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
