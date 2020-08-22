@@ -115,7 +115,14 @@ class CrusadeCardModel{
 
   //BattleHonors
   List<String> getBattleHonors(){
-    return json.decode(battleHonors);
+    List<String> battleHonorList;
+    try{
+      return (jsonDecode(battleHonors) as List<dynamic>).cast<String>();
+    }
+    catch(e){
+      battleHonors = json.encode(new List<String>());
+      return (jsonDecode(battleHonors) as List<dynamic>).cast<String>();
+    }
   }
 
   void addBattleHonor(String battleHonor){
@@ -133,25 +140,40 @@ class CrusadeCardModel{
   }
 
   void removeBattleHonor(String battleHonor){
-    List<String> battleHonorList = json.decode(battleHonors);
-    battleHonorList.removeWhere((element) => element == battleHonor);
+    List<String> battleHonorList = (jsonDecode(battleHonors) as List<dynamic>).cast<String>();
+    battleHonorList.remove(battleHonor);
     battleHonors = json.encode(battleHonorList);
   }
 
   //BattleScars
   List<String> getBattleScars(){
-    return json.decode(battleScars);
+    List<String> battleScarList;
+    try{
+      return (jsonDecode(battleScars) as List<dynamic>).cast<String>();
+    }
+    catch(e){
+      battleScars = json.encode(new List<String>());
+      return (jsonDecode(battleScars) as List<dynamic>).cast<String>();
+    }
   }
 
   void addBattleScar(String battleScar){
-    List<String> battleScarList = json.decode(battleScars);
+    List<String> battleScarList;
+    try{
+      battleScarList = (jsonDecode(battleScars) as List<dynamic>).cast<String>();
+    }
+    catch(e){
+      battleScars = json.encode(new List<String>());
+      battleScarList = (jsonDecode(battleScars) as List<dynamic>).cast<String>();
+    }
+
     battleScarList.add(battleScar);
     battleScars = json.encode(battleScarList);
   }
 
   void removeBattleScar(String battleScar){
-    List<String> battleScarList = json.decode(battleScar);
-    battleScarList.removeWhere((element) => element == battleScar);
+    List<String> battleScarList = (jsonDecode(battleScars) as List<dynamic>).cast<String>();
+    battleScarList.remove(battleScar);
     battleScars = json.encode(battleScarList);
   }
 

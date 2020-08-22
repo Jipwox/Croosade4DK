@@ -269,12 +269,80 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                Text("Battle Honors"),
-                SizedBox(width: 53,),
-                Container(
-                  padding: EdgeInsets.all(15.0),
-                  width: 250.0,
-                  child: Text(widget.cardModel.battleHonors),
+                Column(
+                  children: [
+                    Text("Battle Honors"),
+                  ],
+                ),
+                SizedBox(width: 43,),
+                Column(
+                  children: [
+                    if(widget.cardModel.getBattleHonors().length > 0) Container(
+                      padding: EdgeInsets.all(15.0),
+                      width: 250.0,
+                      child: Wrap(
+                        spacing: 4.0,
+                        runSpacing: 4.0,
+                        children: widget.cardModel.getBattleHonors().map((honor) => RaisedButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(honor),
+                              IconButton(
+                                icon: Icon(Icons.highlight_off),
+                                onPressed: () {
+                                  setState(() {
+                                    widget.cardModel.removeBattleHonor(honor);
+                                    if(widget.cardModel.crusadePoints > 0) widget.cardModel.crusadePoints --;
+                                    DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          onPressed: (){},
+                        )).toList().cast<Widget>(),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: (){
+                        TextEditingController bhController = new TextEditingController();
+                        showDialog(
+                            barrierDismissible: true,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog (
+                                title: Text("Add Battle Honor"),
+                                content: Container(
+                                  width: 250.0,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                    ),
+                                    controller: bhController,
+                                  ),
+                                ),
+                                actions: [
+                                  FlatButton(
+                                    child: Text("Close"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
+                                    },
+                                  ),
+                                ],
+                              );
+                            }
+                        ).then((value) => {
+                          setState(() {
+                            if(bhController.text.length <= 0) return;
+                            widget.cardModel.addBattleHonor(bhController.text);
+                            widget.cardModel.crusadePoints ++;
+                            DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                          })
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ]
           ),
@@ -282,15 +350,80 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
-                Text("Battle Scars"),
-                SizedBox(width: 63,),
-                Container(
-                  width: 250.0,
-                  child: TextField(
-                    decoration: InputDecoration(
+                Column(
+                  children: [
+                    Text("Battle Scars"),
+                  ],
+                ),
+                SizedBox(width: 53,),
+                Column(
+                  children: [
+                    if(widget.cardModel.getBattleScars().length > 0) Container(
+                      padding: EdgeInsets.all(15.0),
+                      width: 250.0,
+                      child: Wrap(
+                        spacing: 4.0,
+                        runSpacing: 4.0,
+                        children: widget.cardModel.getBattleScars().map((scar) => RaisedButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(scar),
+                              IconButton(
+                                icon: Icon(Icons.highlight_off),
+                                onPressed: () {
+                                  setState(() {
+                                    widget.cardModel.removeBattleScar(scar);
+                                    widget.cardModel.crusadePoints ++;
+                                    DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          onPressed: (){},
+                        )).toList().cast<Widget>(),
+                      ),
                     ),
-                    controller: widget.cardBattleScarsController,
-                  ),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: (){
+                        TextEditingController bsController = new TextEditingController();
+                        showDialog(
+                            barrierDismissible: true,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog (
+                                title: Text("Add Battle Scar"),
+                                content: Container(
+                                  width: 250.0,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                    ),
+                                    controller: bsController,
+                                  ),
+                                ),
+                                actions: [
+                                  FlatButton(
+                                    child: Text("Close"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
+                                    },
+                                  ),
+                                ],
+                              );
+                            }
+                        ).then((value) => {
+                          setState(() {
+                            if(bsController.text.length <= 0) return;
+                            widget.cardModel.addBattleScar(bsController.text);
+                            if(widget.cardModel.crusadePoints > 0) widget.cardModel.crusadePoints --;
+                            DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                          })
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ]
           ),
@@ -543,36 +676,6 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                   },
                 ),
               ]
-          ),
-          RaisedButton(
-            child: Text("Test popup button"),
-            onPressed: (){
-              showDialog(
-                barrierDismissible: true,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog (
-                    title: Text("TestPopup"),
-                    content: Text("TestContent"),
-                    actions: [
-                      FlatButton(
-                        child: Text("Close"),
-                        onPressed: () {
-                          Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
-                        },
-                      ),
-                    ],
-                  );
-                }
-              ).then((value) => {
-                setState(() {
-                  widget.cardModel.addBattleHonor("TestBattlehonor");
-                  //widget.cardModel.battleHonors = "";
-                  print("BattleHonors: ${widget.cardModel.battleHonors}");
-                  DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
-                })
-              });
-            },
           ),
         ],
       ),
