@@ -62,6 +62,7 @@ class DatabaseProvider{
                   TOTAL_DESTROYED_MELEE INTEGER,
                   INFO TEXT,
                   TIMES_MARKED_FOR_GREATNESS INTEGER,
+                  IMAGE_PATH TEXT,
                   FOREIGN KEY(CRUSADE_FORCE_ID) REFERENCES CRUSADE_FORCE(ID)
                   )
           ''');

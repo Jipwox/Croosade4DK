@@ -2,6 +2,8 @@ import '../utils/Database.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeCardModel.dart';
 import 'package:croosade_4dk/utils/Database.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class CardDetailScrollView extends StatefulWidget {
   final CrusadeCardModel cardModel;
@@ -27,6 +29,21 @@ class CardDetailScrollView extends StatefulWidget {
 
 class _CardDetailScrollViewState extends State<CardDetailScrollView>{
 
+  String _imageFilePath;
+  PickedFile _imageFile;
+  ImagePicker imagePicker = new ImagePicker();
+
+
+  Future getImage() async{
+    var pickedImage = await imagePicker.getImage(source: ImageSource.gallery);
+    setState(() {
+      _imageFile = pickedImage;
+      _imageFilePath = _imageFile.path;
+      widget.cardModel.imagePath = _imageFilePath;
+      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +58,8 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
     widget.cardRelicsController.addListener(_updateFromControllers);
     widget.cardOtherUpgradesController.addListener(_updateFromControllers);
     widget.cardInfoController.addListener(_updateFromControllers);
+
+    _imageFilePath = widget.cardModel.imagePath;
   }
 
   @override
@@ -141,13 +160,32 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
 
   }
 
-
   @override
   Widget build(BuildContext context){
     return SingleChildScrollView(
       child: Column(
         children: [
           Padding(padding: EdgeInsets.only(top: 20.0),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+              Container(
+                width: 250.0,
+                child: _imageFilePath != "" ? GestureDetector(
+                    child: Container(
+                        child: Image.file(File(_imageFilePath)),
+                    ),
+                    onTap:(){
+                      getImage();
+                    }
+                ): RaisedButton(
+                  child: Text("Upload Image"),
+                  onPressed: getImage,
+                ),
+              ),
+            ]
+          ),
           Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

@@ -25,6 +25,7 @@ class CrusadeCardModel{
   int totalDestroyedMelee;
   String info = "";
   int timesMarkedForGreatness;
+  String imagePath = "";
 
   CrusadeCardModel(int crusadeForceId, String name, int powerRating, String battleFieldRole,
                     String unitType, String equipment, String psychicPowers, String warlordTraits,
@@ -77,6 +78,7 @@ class CrusadeCardModel{
       'TOTAL_DESTROYED_MELEE' : totalDestroyedMelee,
       'INFO' : info,
       'TIMES_MARKED_FOR_GREATNESS' : timesMarkedForGreatness,
+      'IMAGE_PATH' : imagePath,
 
     };
 
@@ -111,6 +113,7 @@ class CrusadeCardModel{
     totalDestroyedMelee = map['TOTAL_DESTROYED_MELEE'];
     info = map['INFO'];
     timesMarkedForGreatness = map['TIMES_MARKED_FOR_GREATNESS'];
+    imagePath = map['IMAGE_PATH'];
   }
 
   //BattleHonors
