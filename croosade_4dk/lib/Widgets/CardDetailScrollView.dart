@@ -6,11 +6,6 @@ import 'package:croosade_4dk/utils/Database.dart';
 class CardDetailScrollView extends StatefulWidget {
   final CrusadeCardModel cardModel;
   TextEditingController cardNameController = new TextEditingController();
-  TextEditingController cardRankController = new TextEditingController();
-  TextEditingController cardBattleHonorsController = new TextEditingController();
-  TextEditingController cardBattleScarsController = new TextEditingController();
-  TextEditingController cardExperiencePointsController = new TextEditingController();
-  TextEditingController cardCrusadePointsController = new TextEditingController();
   TextEditingController cardBattleFieldRoleController = new TextEditingController();
   TextEditingController cardUnitTypeController = new TextEditingController();
   TextEditingController cardEquipmentController = new TextEditingController();
@@ -23,7 +18,7 @@ class CardDetailScrollView extends StatefulWidget {
   CardDetailScrollView({@required this.cardModel, @required this.cardNameController, @required this.cardBattleFieldRoleController,
                         @required this.cardUnitTypeController, @required this.cardEquipmentController, @required this.cardPsychicPowersController,
                         @required this.cardWarlordTraitsController, @required this.cardRelicsController, @required this.cardOtherUpgradesController,
-                        @required this.cardBattleHonorsController, @required this.cardBattleScarsController, @required this.cardInfoController});
+                        @required this.cardInfoController});
 
   @override
   _CardDetailScrollViewState createState() => _CardDetailScrollViewState();
@@ -31,6 +26,49 @@ class CardDetailScrollView extends StatefulWidget {
 }
 
 class _CardDetailScrollViewState extends State<CardDetailScrollView>{
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Start listening to changes.
+    widget.cardNameController.addListener(_updateFromControllers);
+    widget.cardBattleFieldRoleController.addListener(_updateFromControllers);
+    widget.cardUnitTypeController.addListener(_updateFromControllers);
+    widget.cardEquipmentController.addListener(_updateFromControllers);
+    widget.cardPsychicPowersController.addListener(_updateFromControllers);
+    widget.cardWarlordTraitsController.addListener(_updateFromControllers);
+    widget.cardRelicsController.addListener(_updateFromControllers);
+    widget.cardOtherUpgradesController.addListener(_updateFromControllers);
+    widget.cardInfoController.addListener(_updateFromControllers);
+  }
+
+  @override
+  void dispose(){
+    widget.cardNameController.dispose();
+    widget.cardBattleFieldRoleController.dispose();
+    widget.cardUnitTypeController.dispose();
+    widget.cardEquipmentController.dispose();
+    widget.cardPsychicPowersController.dispose();
+    widget.cardWarlordTraitsController.dispose();
+    widget.cardRelicsController.dispose();
+    widget.cardOtherUpgradesController.dispose();
+    widget.cardInfoController.dispose();
+    super.dispose();
+  }
+
+  _updateFromControllers(){
+    widget.cardModel.name = widget.cardNameController.text;
+    widget.cardModel.battlefieldRole = widget.cardBattleFieldRoleController.text;
+    widget.cardModel.unitType = widget.cardUnitTypeController.text;
+    widget.cardModel.equipment = widget.cardEquipmentController.text;
+    widget.cardModel.psychicPowers = widget.cardPsychicPowersController.text;
+    widget.cardModel.relics = widget.cardRelicsController.text;
+    widget.cardModel.otherUpgrades = widget.cardOtherUpgradesController.text;
+    widget.cardModel.info = widget.cardInfoController.text;
+
+    DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+  }
 
   bool eligibleForHonor(){
     int honorCount = widget.cardModel.getBattleHonors().length;
@@ -705,6 +743,23 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                     });
                   },
+                ),
+              ]
+          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                Container(
+                  width: 300,
+                  child: TextField(
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                      hintText: "Unit info, and notable achievements go here...",
+                      border: OutlineInputBorder(),
+                    ),
+                    controller: widget.cardInfoController,
+                  ),
                 ),
               ]
           ),

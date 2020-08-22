@@ -96,7 +96,6 @@ class _CrusadeCardDetailTabState extends State<CrusadeCardDetailTab>{
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.connectionState != ConnectionState.done) return new CircularProgressIndicator();
         return CardDetailScrollView(cardModel: cardModel, cardBattleFieldRoleController: cardBattleFieldRoleController,
-                                    cardBattleHonorsController: cardBattleHonorsController, cardBattleScarsController: cardBattleScarsController,
                                     cardEquipmentController: cardEquipmentController, cardInfoController: cardInfoController,
                                     cardNameController: cardNameController, cardOtherUpgradesController: cardOtherUpgradesController,
                                     cardPsychicPowersController: cardPsychicPowersController, cardRelicsController: cardRelicsController,
