@@ -19,6 +19,7 @@ class CrusadeCardModel{
   String relics;
   String otherUpgrades;
   int battlesPlayed;
+  int battlesSurvived;
   int totalDestroyed;
   int totalDestroyedPsychic;
   int totalDestroyedRanged;
@@ -46,6 +47,7 @@ class CrusadeCardModel{
     this.relics = relics;
     this.otherUpgrades = otherUpgrades;
     this.battlesPlayed = 0;
+    this.battlesSurvived = 0;
     this.totalDestroyed = 0;
     this.totalDestroyedPsychic = 0;
     this.totalDestroyedRanged = 0;
@@ -72,6 +74,7 @@ class CrusadeCardModel{
       'RELICS' : relics,
       'OTHER_UPGRADES' : otherUpgrades,
       'BATTLES_PLAYED' : battlesPlayed,
+      'BATTLES_SURVIVED' : battlesSurvived,
       'TOTAL_DESTROYED' : totalDestroyed,
       'TOTAL_DESTROYED_PSYCHIC' : totalDestroyedPsychic,
       'TOTAL_DESTROYED_RANGED' : totalDestroyedRanged,
@@ -107,6 +110,7 @@ class CrusadeCardModel{
     relics = map['RELICS'];
     otherUpgrades = map['OTHER_UPGRADES'];
     battlesPlayed = map['BATTLES_PLAYED'];
+    battlesSurvived = map['BATTLES_SURVIVED'];
     totalDestroyed = map['TOTAL_DESTROYED'];
     totalDestroyedPsychic = map['TOTAL_DESTROYED_PSYCHIC'];
     totalDestroyedRanged = map['TOTAL_DESTROYED_RANGED'];

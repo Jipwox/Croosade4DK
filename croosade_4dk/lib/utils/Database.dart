@@ -59,6 +59,7 @@ class DatabaseProvider{
                   RELICS TEXT,
                   OTHER_UPGRADES TEXT,
                   BATTLES_PLAYED INTEGER,
+                  BATTLES_SURVIVED INTEGER,
                   TOTAL_DESTROYED INTEGER,
                   TOTAL_DESTROYED_PSYCHIC INTEGER,
                   TOTAL_DESTROYED_RANGED INTEGER,

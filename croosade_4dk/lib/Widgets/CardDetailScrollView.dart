@@ -635,6 +635,41 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                Text("Battles Survived"),
+                SizedBox(width: 90,),
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    setState(() {
+                      if(widget.cardModel.battlesSurvived <= 0) return;
+                      widget.cardModel.battlesSurvived --;
+                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                    });
+                  },
+                ),
+                Container(
+                  margin: EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black)
+                  ),
+                  child: Text(widget.cardModel.battlesSurvived.toString()),
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {
+                    setState(() {
+                      widget.cardModel.battlesSurvived ++;
+                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                    });
+                  },
+                ),
+              ]
+          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Total Enemies Destroyed"),
                 SizedBox(width: 84,),
                 Container(
