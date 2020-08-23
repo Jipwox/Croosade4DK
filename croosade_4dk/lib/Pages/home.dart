@@ -62,12 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Add Crusade Force',
         child: Icon(Icons.add),
       ),
-      persistentFooterButtons: [
-        RaisedButton(
-          child: Text("Delete Entries"),
-          onPressed: () => deleteForces(),
-        ),
-      ],// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
@@ -94,7 +88,41 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildRow(CrusadeForceModel forceModel) {
     String title = "${forceModel.name} / ${forceModel.faction}";
     return ListTile(
-      title: Text(title),             // ... to here.
+      title: Text(title),
+      trailing: IconButton(
+        icon: Icon(
+          Icons.highlight_off,
+        ),
+        onPressed: (){
+          showDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog (
+                  title: Text("Are you sure you want to delete $title ?"),
+                  actions: [
+                    FlatButton(
+                      child: Text("No"),
+                      onPressed: () {
+                        Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
+                      },
+                    ),
+                    FlatButton(
+                      child: Text("Yes"),
+                      onPressed: () {
+                        DatabaseProvider.db.deleteCrusadeForceModel(forceModel.id);
+                        Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
+                      },
+                    ),
+                  ],
+                );
+              }
+          ).then((value) => {
+            setState(() {
+            })
+          });
+        },
+      ),
       onTap: () {
         _navigateToViewCrusadeForcePage(context, title, forceModel.id);
       },

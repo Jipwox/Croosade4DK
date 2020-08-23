@@ -69,6 +69,26 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
         children: [
           Padding(padding: EdgeInsets.only(top: 20.0),),
           Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                Container(
+                  width: 250.0,
+                  child: _imageFilePath != "" ? GestureDetector(
+                      child: Container(
+                        child: Image.file(File(_imageFilePath)),
+                      ),
+                      onTap:(){
+                        getImage();
+                      }
+                  ): RaisedButton(
+                    child: Text("Upload Image"),
+                    onPressed: getImage,
+                  ),
+                ),
+              ]
+          ),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Column(

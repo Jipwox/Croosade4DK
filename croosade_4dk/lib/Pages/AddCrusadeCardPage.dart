@@ -34,7 +34,9 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
         int.parse(cardPowerRating), cardBattleFieldRole, cardUnitType, cardEquipment, cardPsychicPowers,
         cardWarlordTraits, cardRelics, cardOtherUpgrades);
 
+
     var result = await DatabaseProvider.db.insertCrusadeCardModel(crusadeCardModel);
+    DatabaseProvider.db.updateCrusadeForceSupplyUsed(widget.crusadeForceId);
     Navigator.pop(context);
   }
 

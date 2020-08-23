@@ -426,7 +426,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                                 ),
                                 actions: [
                                   FlatButton(
-                                    child: Text("Close"),
+                                    child: Text("Submit"),
                                     onPressed: () {
                                       Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
                                     },

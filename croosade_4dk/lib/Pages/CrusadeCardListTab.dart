@@ -89,7 +89,41 @@ class _CrusadeCardListTabState extends State<CrusadeCardListTab> {
   Widget _buildRow(CrusadeCardModel cardModel) {
     String title = "${cardModel.name} / PR: ${cardModel.powerRating} / ${cardModel.rank}";
     return ListTile(
-      title: Text(title),             // ... to here.
+      title: Text(title),
+      trailing: IconButton(
+        icon: Icon(
+          Icons.highlight_off,
+        ),
+        onPressed: (){
+          showDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog (
+                  title: Text("Are you sure you want to delete $title ?"),
+                  actions: [
+                    FlatButton(
+                      child: Text("No"),
+                      onPressed: () {
+                        Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
+                      },
+                    ),
+                    FlatButton(
+                      child: Text("Yes"),
+                      onPressed: () {
+                        DatabaseProvider.db.deleteCrusadeCardModel(cardModel.id, cardModel.crusadeForceId);
+                        Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
+                      },
+                    ),
+                  ],
+                );
+              }
+          ).then((value) => {
+            setState(() {
+            })
+          });
+        },
+      ),
       onTap: () {
         _navigateToViewCrusadeCardPage(context, cardModel.id);
       },

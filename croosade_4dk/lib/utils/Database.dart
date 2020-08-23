@@ -1,6 +1,8 @@
 
 import 'package:croosade_4dk/Models/CrusadeCardModel.dart';
 import 'package:croosade_4dk/Models/CrusadeForceModel.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -121,12 +123,27 @@ class DatabaseProvider{
     await db.delete('CRUSADE_FORCE');
   }
 
+  Future<void> deleteCrusadeForceModel(int forceId) async{
+    final db = await database;
+    await db.rawDelete('DELETE FROM CRUSADE_FORCE WHERE ID = ?', [forceId]);
+  }
+
   Future<void> updateCrusadeForceModel(CrusadeForceModel forceModel) async {
     final db = await database;
     await db.update('CRUSADE_FORCE', forceModel.toMap(),
         where: 'CRUSADE_FORCE.ID = ?',
         whereArgs: [forceModel.id]
     );
+  }
+  
+  Future<void> updateCrusadeForceSupplyUsed(int id) async{
+    final db = await database;
+    var result = await db.rawQuery('select SUM(POWER_RATING) from CRUSADE_CARD where CRUSADE_FORCE_ID = ?',
+    [id.toString()]);
+    int supplyUsed = result[0]["SUM(POWER_RATING)"];
+    if(supplyUsed == null) supplyUsed = 0;
+    await db.rawUpdate('UPDATE CRUSADE_FORCE SET SUPPLY_USED = ? WHERE ID = ?',
+    [supplyUsed, id]);
   }
 
   //CRUSADE CARD MODEL METHODS
@@ -178,6 +195,13 @@ class DatabaseProvider{
     final db = await database;
     await db.rawDelete('DELETE * FROM CRUSADE_CARD WHERE CRUSADE_CARD.CRUSADE_FORCE_ID = ?',
                         [id]);
+  }
+
+  Future<void> deleteCrusadeCardModel(int cardId, int forceId) async{
+    final db = await database;
+    await db.rawDelete('DELETE FROM CRUSADE_CARD WHERE ID = ?', [cardId]);
+
+    await updateCrusadeForceSupplyUsed(forceId);
   }
 
   Future<void> updateCrusadeCardModel(CrusadeCardModel cardModel) async {
