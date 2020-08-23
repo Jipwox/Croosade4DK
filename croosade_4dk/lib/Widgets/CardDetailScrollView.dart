@@ -227,6 +227,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                     setState(() {
                       widget.cardModel.powerRating --;
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                      DatabaseProvider.db.updateCrusadeForceSupplyUsed(widget.cardModel.crusadeForceId);
                     });
                   },
                 ),
@@ -244,6 +245,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                     setState(() {
                       widget.cardModel.powerRating ++;
                       DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                      DatabaseProvider.db.updateCrusadeForceSupplyUsed(widget.cardModel.crusadeForceId);
                     });
                   },
                 ),
