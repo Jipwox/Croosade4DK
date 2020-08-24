@@ -1,4 +1,4 @@
-
+import 'dart:convert';
 
 class  CrusadeBattleModel {
 
@@ -45,6 +45,38 @@ class  CrusadeBattleModel {
     info = map['INFO'];
     victorious = map['VICTORIOUS'];
     imagePath = map['IMAGE_PATH'];
+  }
+
+  //BattleUnits
+  List<String> getBattleUnits(){
+    List<String> battleUnitList;
+    try{
+      return (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+    }
+    catch(e){
+      battleUnits = json.encode(new List<String>());
+      return (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+    }
+  }
+
+  void addBattleUnit(String battleUnit){
+    List<String> battleUnitList;
+    try{
+      battleUnitList = (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+    }
+    catch(e){
+      battleUnits = json.encode(new List<String>());
+      battleUnitList = (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+    }
+
+    battleUnitList.add(battleUnit);
+    battleUnits = json.encode(battleUnitList);
+  }
+
+  void removeBattleUnit(String battleUnit){
+    List<String> battleUnitList = (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+    battleUnitList.remove(battleUnit);
+    battleUnits = json.encode(battleUnitList);
   }
 
 
