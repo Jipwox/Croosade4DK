@@ -3,7 +3,8 @@ import 'dart:convert';
 class  CrusadeBattleModel {
 
   int id;
-  int name;
+  int crusadeId;
+  String name;
   String opposingForceName;
   String battleUnits;
   String info;
@@ -11,8 +12,9 @@ class  CrusadeBattleModel {
   String imagePath;
   String date;
 
-  CrusadeBattleModel(int name, String opposingForceName, String battleUnits, String info, bool victorious, String date){
+  CrusadeBattleModel(String name, int crusadeId, String opposingForceName, String battleUnits, String info, bool victorious, String date){
     this.name = name;
+    this.crusadeId = crusadeId;
     this.opposingForceName = opposingForceName;
     this.battleUnits = battleUnits;
     this.info = "";
@@ -24,6 +26,7 @@ class  CrusadeBattleModel {
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{
       'ID' : id,
+      'CRUSADE_ID' : crusadeId,
       'NAME' : name,
       'OPPOSING_FORCE_NAME' : opposingForceName,
       'BATTLE_UNITS' : battleUnits,
@@ -42,6 +45,7 @@ class  CrusadeBattleModel {
 
   CrusadeBattleModel.fromMap(Map<String, dynamic> map){
     id = map['ID'];
+    crusadeId = map['CRUSADE_ID'];
     name = map['NAME'];
     opposingForceName = map['OPPOSING_FORCE_NAME'];
     battleUnits = map['BATTLE_UNITS'];

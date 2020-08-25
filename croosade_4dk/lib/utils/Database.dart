@@ -1,6 +1,8 @@
 
 import 'package:croosade_4dk/Models/CrusadeCardModel.dart';
 import 'package:croosade_4dk/Models/CrusadeForceModel.dart';
+import 'package:croosade_4dk/Models/CrusadeBattleModel.dart';
+import 'package:croosade_4dk/Models/CardBattleEntryModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -68,6 +70,37 @@ class DatabaseProvider{
                   TIMES_MARKED_FOR_GREATNESS INTEGER,
                   IMAGE_PATH TEXT,
                   FOREIGN KEY(CRUSADE_FORCE_ID) REFERENCES CRUSADE_FORCE(ID)
+                  )
+          ''');
+          await database.execute('''
+              CREATE TABLE CRUSADE_BATTLE (
+                  ID INTEGER PRIMARY KEY,
+                  CRUSADE_ID INTEGER,
+                  NAME TEXT,
+                  OPPOSING_FORCE_NAME TEXT,
+                  BATTLE_UNITS TEXT,
+                  INFO TEXT,
+                  VICTORIOUS INT,
+                  IMAGE_PATH TEXT,
+                  FOREIGN KEY(CRUSADE_ID) REFERENCES CRUSADE_FORCE(ID)
+                  )
+          ''');
+          await database.execute('''
+              CREATE TABLE CARD_BATTLE_ENTRY (
+                  ID INTEGER PRIMARY KEY,
+                  CARD_ID INTEGER,
+                  BATTLE_ID INTEGER,
+                  AGENDA_1_TALLY INTEGER,
+                  AGENDA_2_TALLY INTEGER,
+                  AGENDA_3_TALLY INTEGER,
+                  TOTAL_DESTROYED INTEGER,
+                  TOTAL_DESTROYED_PSYCHIC INTEGER,
+                  TOTAL_DESTROYED_RANGED INTEGER,
+                  TOTAL_DESTROYED_MELEE INTEGER,
+                  NOTABLE_EVENTS TEXT,
+                  IMAGE_PATH TEXT,
+                  FOREIGN KEY(CARD_ID) REFERENCES CRUSADE_CARD(ID),
+                  FOREIGN KEY(BATTLE_ID) REFERENCES CRUSADE_BATTLE(ID)
                   )
           ''');
         }
@@ -210,6 +243,71 @@ class DatabaseProvider{
     await db.update('CRUSADE_CARD', cardModel.toMap(),
         where: 'CRUSADE_CARD.ID = ?',
         whereArgs: [cardModel.id]
+    );
+  }
+
+  // CRUSADE BATTLE METHODS
+
+  Future<CrusadeBattleModel> insertCrusadeBattleModel (CrusadeBattleModel crusadeBattleModel) async{
+    final db = await database;
+
+    crusadeBattleModel.id = await db.insert('CRUSADE_BATTLE', crusadeBattleModel.toMap());
+
+    return crusadeBattleModel;
+  }
+
+  Future<CrusadeBattleModel> getCrusadeBattle(int id) async {
+    final db = await database;
+
+    CrusadeBattleModel crusadeBattleModel;
+
+    var result = await db.rawQuery(
+        'Select * from CRUSADE_BATTLE where CRUSADE_BATTLE.id = ?',
+        [id.toString()]
+    );
+
+    for(var row in result){
+      crusadeBattleModel = CrusadeBattleModel.fromMap(row);
+    }
+
+    return crusadeBattleModel;
+  }
+
+  Future<List<CrusadeBattleModel>> getCrusadeBattles(int forceId) async {
+    final db = await database;
+
+    var crusadeBattles = await db.rawQuery(
+        'SELECT * FROM CRUSADE_BATTLE WHERE CRUSADE_ID = ?',
+        [forceId]
+    );
+
+    List<CrusadeBattleModel> battleModelList = List<CrusadeBattleModel>();
+
+    crusadeBattles.forEach((currentBattle) {
+      CrusadeBattleModel crusadeBattleModel = CrusadeBattleModel.fromMap(currentBattle);
+      battleModelList.add(crusadeBattleModel);
+    });
+
+    return battleModelList;
+  }
+
+  Future<void> deleteCrusadeBattleModels(int id) async{
+    final db = await database;
+    await db.rawDelete('DELETE * FROM CRUSADE_BATTLE WHERE CRUSADE_ID = ?',
+        [id]);
+  }
+
+  Future<void> deleteCrusadeBattleModel(int battleId) async{
+    final db = await database;
+    await db.rawDelete('DELETE FROM CRUSADE_BATTLE WHERE ID = ?', [battleId]);
+
+  }
+
+  Future<void> updateCrusadeBattleModel(CrusadeBattleModel battleModel) async {
+    final db = await database;
+    await db.update('CRUSADE_BATTLE', battleModel.toMap(),
+        where: 'CRUSADE_BATTLE.ID = ?',
+        whereArgs: [battleModel.id]
     );
   }
 }

@@ -4,6 +4,7 @@ import '../utils/Database.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'CrusadeForceDetailTab.dart';
 import 'CrusadeCardListTab.dart';
+import 'CrusadeBattleTab.dart';
 import 'TapMeButton.dart';
 
 class ViewCrusadeForcePage extends StatefulWidget {
@@ -68,11 +69,7 @@ class _ViewCrusadeForceState extends State<ViewCrusadeForcePage> {
               children: [
                 CrusadeForceDetailTab(forceModel: forceModel,),
                 CrusadeCardListTab(forceModel: forceModel,),
-                CustomButton(
-                  onPressed: () {
-                    print("Tapped Me");
-                  },
-                ),
+                CrusadeBattleTab(forceModel: forceModel),
               ],
             ),// This trailing comma makes auto-formatting nicer for build methods.
           ),
