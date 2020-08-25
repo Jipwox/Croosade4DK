@@ -9,14 +9,16 @@ class  CrusadeBattleModel {
   String info;
   int victorious;
   String imagePath;
+  String date;
 
-  CrusadeBattleModel(int name, String opposingForceName, String battleUnits, String info, bool victorious){
+  CrusadeBattleModel(int name, String opposingForceName, String battleUnits, String info, bool victorious, String date){
     this.name = name;
     this.opposingForceName = opposingForceName;
     this.battleUnits = battleUnits;
     this.info = "";
     this.victorious = 0;
     this.imagePath = "";
+    this.date = date;
   }
 
   Map<String, dynamic> toMap(){
@@ -28,6 +30,7 @@ class  CrusadeBattleModel {
       'INFO' : info,
       'VICTORIOUS' : victorious,
       'IMAGE_PATH' : imagePath,
+      'DATE' : date
     };
 
     if(id != null){
@@ -45,6 +48,7 @@ class  CrusadeBattleModel {
     info = map['INFO'];
     victorious = map['VICTORIOUS'];
     imagePath = map['IMAGE_PATH'];
+    date = map['DATE'];
   }
 
   //BattleUnits

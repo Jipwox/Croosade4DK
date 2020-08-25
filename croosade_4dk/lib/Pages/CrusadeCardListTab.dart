@@ -1,5 +1,4 @@
 import 'package:croosade_4dk/Pages/AddCrusadeCardPage.dart';
-import 'package:croosade_4dk/Pages/CrusadeForceDetailTab.dart';
 import 'package:croosade_4dk/Pages/ViewCrusadeCardPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
