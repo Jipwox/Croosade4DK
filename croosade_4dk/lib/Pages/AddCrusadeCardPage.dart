@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../Models/CrusadeForceModel.dart';
 import '../Models/CrusadeCardModel.dart';
 import '../utils/Database.dart';
 

@@ -1,3 +1,4 @@
+import 'package:croosade_4dk/Pages/AddCrusadeBattlePage.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeBattleModel.dart';
 import '../Models/CrusadeForceModel.dart';
@@ -35,8 +36,15 @@ class _CrusadeBattleTabState extends State<CrusadeBattleTab> {
     return battles;
   }
 
-  _navigateToAddBattlePage(int forceId){
-    print("test / force id = $forceId");
+  _navigateToAddBattlePage(int forceId) async{
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddCrusadeBattlePage(crusadeForceId: forceId)
+        )
+    );
+
+    refreshPage();
   }
 
 
