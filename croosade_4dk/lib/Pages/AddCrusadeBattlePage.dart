@@ -123,6 +123,32 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
                             ),
                           ]
                       ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                            Text("Participating Units: "),
+                          ]
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                            RaisedButton(
+                              child: Text("Uncheck All"),
+                              onPressed: () => {
+                                print("Uncheck All")
+                              },
+                            ),
+                            SizedBox(width: 20,),
+                            RaisedButton(
+                              child: Text("Check All"),
+                              onPressed: () => {
+                                print("Check All")
+                              },
+                            ),
+                          ]
+                      ),
                       ListView.separated(
                         shrinkWrap: true,
                         padding: EdgeInsets.all(16.0),
