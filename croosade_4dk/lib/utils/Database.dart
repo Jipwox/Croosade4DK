@@ -322,4 +322,70 @@ class DatabaseProvider{
         whereArgs: [battleModel.id]
     );
   }
+
+// CRUSADE CARD BATTLE ENTRY METHODS
+
+  Future<CardBattleEntryModel> insertCardBattleEntryModel (CardBattleEntryModel cardBattleEntryModel) async{
+    final db = await database;
+
+    cardBattleEntryModel.id = await db.insert('CARD_BATTLE_ENTRY', cardBattleEntryModel.toMap());
+
+    return cardBattleEntryModel;
+  }
+
+  Future<CardBattleEntryModel> getCardBattleEntryModel(int id) async {
+    final db = await database;
+
+    CardBattleEntryModel cardBattleEntryModel;
+
+    var result = await db.rawQuery(
+        'Select * from CARD_BATTLE_ENTRY where ID = ?',
+        [id.toString()]
+    );
+
+    for(var row in result){
+      cardBattleEntryModel = CardBattleEntryModel.fromMap(row);
+    }
+
+    return cardBattleEntryModel;
+  }
+
+  Future<List<CardBattleEntryModel>> getCardBattleEntryModels(int battleId) async {
+    final db = await database;
+
+    var cardBattleEntries = await db.rawQuery(
+        'SELECT * FROM CARD_BATTLE_ENTRY WHERE BATTLE_ID = ?',
+        [battleId]
+    );
+
+    List<CardBattleEntryModel> cardBattleEntryList = List<CardBattleEntryModel>();
+
+    cardBattleEntries.forEach((entry) {
+      CardBattleEntryModel cardBattleEntryModel = CardBattleEntryModel.fromMap(entry);
+      cardBattleEntryList.add(cardBattleEntryModel);
+    });
+
+    return cardBattleEntryList;
+  }
+
+  Future<void> deleteCardBattleEntryModels(int id) async{
+    final db = await database;
+    await db.rawDelete('DELETE * FROM CARD_BATTLE_ENTRY WHERE BATTLE_ID = ?',
+        [id]);
+  }
+
+  Future<void> deleteCardBattleEntryModel(int id) async{
+    final db = await database;
+    await db.rawDelete('DELETE FROM CARD_BATTLE_ENTRY WHERE ID = ?', [id]);
+
+  }
+
+  Future<void> updateCardBattleEntryModel(CardBattleEntryModel entryModel) async {
+    final db = await database;
+    await db.update('CARD_BATTLE_ENTRY', entryModel.toMap(),
+        where: 'ID = ?',
+        whereArgs: [entryModel.id]
+    );
+  }
+
 }

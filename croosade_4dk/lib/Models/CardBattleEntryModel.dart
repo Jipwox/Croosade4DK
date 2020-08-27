@@ -14,7 +14,7 @@ class CardBattleEntryModel{
   String notableEvents;
   String imagePath;
 
-  CrusadeBattleEntryModel(int cardId, int battleId, String imagePath){
+  CardBattleEntryModel(int cardId, int battleId){
     this.cardId = cardId;
     this.battleId = battleId;
     agenda1Tally = 0;
@@ -25,7 +25,7 @@ class CardBattleEntryModel{
     totalDestroyedRanged = 0;
     totalDestroyedMelee = 0;
     notableEvents = "";
-    this.imagePath = imagePath;
+    this.imagePath = "";
   }
 
   Map<String, dynamic> toMap(){

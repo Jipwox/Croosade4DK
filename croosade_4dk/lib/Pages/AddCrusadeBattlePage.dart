@@ -1,3 +1,4 @@
+import 'package:croosade_4dk/Models/CardBattleEntryModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeBattleModel.dart';
@@ -95,12 +96,16 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
 
     await DatabaseProvider.db.insertCrusadeBattleModel(battle);
 
-    checkedIds.forEach((element) {
+    checkedIds.forEach((element) async {
       print(element);
       DatabaseProvider.db.incrementCrusadeCardModelBattlesPlayed(element, 1);
+      CardBattleEntryModel cardBattleEntryModel = new CardBattleEntryModel(element, battle.id);
+      await DatabaseProvider.db.insertCardBattleEntryModel(cardBattleEntryModel);
     });
 
     DatabaseProvider.db.incrementCrusadeForceBattleTally(widget.crusadeForceId, 1);
+
+
 
     Navigator.pop(context);
 

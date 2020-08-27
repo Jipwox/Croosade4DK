@@ -1,9 +1,9 @@
+import 'package:croosade_4dk/Models/CardBattleEntryModel.dart';
 import 'package:croosade_4dk/Pages/AddCrusadeBattlePage.dart';
 import 'package:croosade_4dk/Pages/ViewCrusadeBattlePage.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeBattleModel.dart';
 import '../Models/CrusadeForceModel.dart';
-import '../Models/CrusadeCardModel.dart';
 import '../utils/Database.dart';
 
 class CrusadeBattleTab extends StatefulWidget{
@@ -49,10 +49,13 @@ class _CrusadeBattleTabState extends State<CrusadeBattleTab> {
   }
 
   void _navigateToViewCrusadeBattlePage(BuildContext context, CrusadeBattleModel battleModel) async{
+
+    List<CardBattleEntryModel> battleEntryList =  await DatabaseProvider.db.getCardBattleEntryModels(battleModel.id);
+
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ViewCrusadeBattlePage(battle: battleModel,)
+            builder: (context) => ViewCrusadeBattlePage(battle: battleModel, battleEntries: battleEntryList,)
         )
     );
     refreshPage();
