@@ -76,7 +76,8 @@ class _CrusadeBattleTabState extends State<CrusadeBattleTab> {
 
 
   Widget _buildRow(CrusadeBattleModel battle) {
-    String title = "${battle.name} / ${battle.date}";
+    DateTime parsedDate = DateTime.parse(battle.date);
+    String title = "Battle of ${battle.name} - ${parsedDate.month}/${parsedDate.day}/${parsedDate.year}";
     return ListTile(
       title: Text(title),
       trailing: IconButton(

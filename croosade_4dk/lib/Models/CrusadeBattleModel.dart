@@ -12,11 +12,11 @@ class  CrusadeBattleModel {
   String imagePath;
   String date;
 
-  CrusadeBattleModel(String name, int crusadeId, String opposingForceName, String battleUnits, String info, bool victorious, String date){
+  CrusadeBattleModel(String name, int crusadeId, String opposingForceName, String info, String date){
     this.name = name;
     this.crusadeId = crusadeId;
     this.opposingForceName = opposingForceName;
-    this.battleUnits = battleUnits;
+    this.battleUnits = "";
     this.info = "";
     this.victorious = 0;
     this.imagePath = "";
@@ -56,33 +56,36 @@ class  CrusadeBattleModel {
   }
 
   //BattleUnits
-  List<String> getBattleUnits(){
-    List<String> battleUnitList;
+  List<int> getBattleUnits(){
     try{
-      return (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+      return (jsonDecode(battleUnits) as List<dynamic>).cast<int>();
     }
     catch(e){
-      battleUnits = json.encode(new List<String>());
-      return (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+      battleUnits = json.encode(new List<int>());
+      return (jsonDecode(battleUnits) as List<dynamic>).cast<int>();
     }
   }
 
-  void addBattleUnit(String battleUnit){
-    List<String> battleUnitList;
+  void addBattleUnit(int battleUnit){
+    List<int> battleUnitList;
     try{
-      battleUnitList = (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+      battleUnitList = (jsonDecode(battleUnits) as List<dynamic>).cast<int>();
     }
     catch(e){
-      battleUnits = json.encode(new List<String>());
-      battleUnitList = (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+      battleUnits = json.encode(new List<int>());
+      battleUnitList = (jsonDecode(battleUnits) as List<dynamic>).cast<int>();
     }
 
     battleUnitList.add(battleUnit);
     battleUnits = json.encode(battleUnitList);
   }
 
-  void removeBattleUnit(String battleUnit){
-    List<String> battleUnitList = (jsonDecode(battleUnits) as List<dynamic>).cast<String>();
+  void addBattleUnits(List<int> battleUnitsList){
+    battleUnits = json.encode(battleUnitsList);
+  }
+
+  void removeBattleUnit(int battleUnit){
+    List<int> battleUnitList = (jsonDecode(battleUnits) as List<dynamic>).cast<int>();
     battleUnitList.remove(battleUnit);
     battleUnits = json.encode(battleUnitList);
   }

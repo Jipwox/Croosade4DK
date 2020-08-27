@@ -53,6 +53,21 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
       });
   }
 
+  void uncheckAll(){
+    setState(() {
+      checkedValues.forEach((key, value) {
+        checkedValues[key] = false;
+      });
+    });
+  }
+
+  void checkAll(){
+    setState(() {
+      checkedValues.forEach((key, value) {
+        checkedValues[key] = true;
+      });
+    });
+  }
 
   @override
   void initState(){
@@ -64,6 +79,31 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
     setState(() {
       retrieveCardModels();
     });
+  }
+
+  void insertCrusadeBattle() async{
+    if(battleNameController.text == "" || checkedIds.length == 0) return;
+    List<int> checkedIdList = checkedIds.toList();
+    CrusadeBattleModel battle = new CrusadeBattleModel(
+        battleNameController.text,
+        widget.crusadeForceId,
+        opposingForceNameController.text,
+        infoController.text,
+        selectedDate.toString()
+    );
+    battle.addBattleUnits(checkedIdList);
+
+    await DatabaseProvider.db.insertCrusadeBattleModel(battle);
+
+    checkedIds.forEach((element) {
+      print(element);
+      DatabaseProvider.db.incrementCrusadeCardModelBattlesPlayed(element, 1);
+    });
+
+    DatabaseProvider.db.incrementCrusadeForceBattleTally(widget.crusadeForceId, 1);
+
+    Navigator.pop(context);
+
   }
 
   @override
@@ -137,19 +177,20 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
                             RaisedButton(
                               child: Text("Uncheck All"),
                               onPressed: () => {
-                                print("Uncheck All")
+                                uncheckAll()
                               },
                             ),
                             SizedBox(width: 20,),
                             RaisedButton(
                               child: Text("Check All"),
                               onPressed: () => {
-                                print("Check All")
+                                checkAll()
                               },
                             ),
                           ]
                       ),
                       ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.all(16.0),
                         itemCount: cardModels.length,
@@ -179,7 +220,7 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
                       RaisedButton(
                         child: Text("Save"),
                         onPressed: () => {
-
+                          insertCrusadeBattle()
                         },
                       ),
                     ],

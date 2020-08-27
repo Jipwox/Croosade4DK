@@ -82,6 +82,7 @@ class DatabaseProvider{
                   INFO TEXT,
                   VICTORIOUS INT,
                   IMAGE_PATH TEXT,
+                  DATE TEXT,
                   FOREIGN KEY(CRUSADE_ID) REFERENCES CRUSADE_FORCE(ID)
                   )
           ''');
@@ -180,6 +181,11 @@ class DatabaseProvider{
     [supplyUsed, id]);
   }
 
+  Future<void> incrementCrusadeForceBattleTally(int forceId, int incrementValue)  async{
+    final db = await database;
+    await db.rawUpdate('UPDATE CRUSADE_FORCE SET BATTLE_TALLY = BATTLE_TALLY + ? WHERE ID = ?', [incrementValue, forceId]);
+  }
+
   //CRUSADE CARD MODEL METHODS
 
   Future<CrusadeCardModel> insertCrusadeCardModel (CrusadeCardModel crusadeCardModel) async{
@@ -244,6 +250,12 @@ class DatabaseProvider{
         where: 'CRUSADE_CARD.ID = ?',
         whereArgs: [cardModel.id]
     );
+  }
+  
+  Future<void> incrementCrusadeCardModelBattlesPlayed(int cardId, int incrementValue)  async{
+    final db = await database;
+    await db.rawUpdate('UPDATE CRUSADE_CARD SET BATTLES_PLAYED = BATTLES_PLAYED + ? WHERE ID = ?', [incrementValue, cardId]);
+    await db.rawUpdate('UPDATE CRUSADE_CARD SET EXPERIENCE_POINTS = EXPERIENCE_POINTS + ? WHERE ID = ?', [incrementValue, cardId]);
   }
 
   // CRUSADE BATTLE METHODS
