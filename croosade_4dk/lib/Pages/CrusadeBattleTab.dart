@@ -1,4 +1,5 @@
 import 'package:croosade_4dk/Pages/AddCrusadeBattlePage.dart';
+import 'package:croosade_4dk/Pages/ViewCrusadeBattlePage.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeBattleModel.dart';
 import '../Models/CrusadeForceModel.dart';
@@ -44,6 +45,16 @@ class _CrusadeBattleTabState extends State<CrusadeBattleTab> {
         )
     );
 
+    refreshPage();
+  }
+
+  void _navigateToViewCrusadeBattlePage(BuildContext context, CrusadeBattleModel battleModel) async{
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ViewCrusadeBattlePage(battle: battleModel,)
+        )
+    );
     refreshPage();
   }
 
@@ -115,7 +126,7 @@ class _CrusadeBattleTabState extends State<CrusadeBattleTab> {
         },
       ),
       onTap: () {
-        //_navigateToViewBattlePage(context, battle.id);
+        _navigateToViewCrusadeBattlePage(context, battle);
       },
     );
   }

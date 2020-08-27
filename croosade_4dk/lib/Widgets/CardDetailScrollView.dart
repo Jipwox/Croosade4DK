@@ -195,8 +195,6 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                 Container(
                   width: 250.0,
                   child: TextField(
-                    decoration: InputDecoration(
-                    ),
                     controller: widget.cardNameController,
                   ),
                 ),
