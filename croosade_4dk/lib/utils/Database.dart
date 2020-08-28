@@ -100,6 +100,7 @@ class DatabaseProvider{
                   TOTAL_DESTROYED_MELEE INTEGER,
                   NOTABLE_EVENTS TEXT,
                   IMAGE_PATH TEXT,
+                  MARKED_FOR_GREATNESS INTEGER,
                   FOREIGN KEY(CARD_ID) REFERENCES CRUSADE_CARD(ID),
                   FOREIGN KEY(BATTLE_ID) REFERENCES CRUSADE_BATTLE(ID)
                   )
@@ -258,6 +259,34 @@ class DatabaseProvider{
     await db.rawUpdate('UPDATE CRUSADE_CARD SET EXPERIENCE_POINTS = EXPERIENCE_POINTS + ? WHERE ID = ?', [incrementValue, cardId]);
   }
 
+  Future<void> decrementCrusadeCardModelTotalDestroyed(int cardId, int incrementValue)  async{
+    final db = await database;
+    await db.rawUpdate('UPDATE CRUSADE_CARD SET TOTAL_DESTROYED = TOTAL_DESTROYED + ? WHERE ID = ?', [incrementValue, cardId]);
+    await db.rawUpdate('UPDATE CRUSADE_CARD SET EXPERIENCE_POINTS = EXPERIENCE_POINTS + ? WHERE ID = ?', [(incrementValue / 3).floor(), cardId]);
+  }
+
+  Future<void> decrementCrusadeCardModelTotalDestroyedPsychic(int cardId, int incrementValue)  async{
+    final db = await database;
+    await db.rawUpdate('UPDATE CRUSADE_CARD SET TOTAL_DESTROYED_PSYCHIC = TOTAL_DESTROYED_PSYCHIC + ? WHERE ID = ?', [incrementValue, cardId]);
+  }
+
+  Future<void> decrementCrusadeCardModelTotalDestroyedRanged(int cardId, int incrementValue)  async{
+    final db = await database;
+    await db.rawUpdate('UPDATE CRUSADE_CARD SET TOTAL_DESTROYED_RANGED = TOTAL_DESTROYED_RANGED + ? WHERE ID = ?', [incrementValue, cardId]);
+  }
+
+  Future<void> decrementCrusadeCardModelTotalDestroyedMelee(int cardId, int incrementValue)  async{
+    final db = await database;
+    await db.rawUpdate('UPDATE CRUSADE_CARD SET TOTAL_DESTROYED_MELEE = TOTAL_DESTROYED_MELEE + ? WHERE ID = ?', [incrementValue, cardId]);
+  }
+
+  Future<void> decrementCrusadeCardModelExp(int cardId, int incrementValue)  async{
+    final db = await database;
+    await db.rawUpdate('UPDATE CRUSADE_CARD SET EXPERIENCE_POINTS = EXPERIENCE_POINTS + ? WHERE ID = ?', [incrementValue, cardId]);
+  }
+
+
+
   // CRUSADE BATTLE METHODS
 
   Future<CrusadeBattleModel> insertCrusadeBattleModel (CrusadeBattleModel crusadeBattleModel) async{
@@ -303,15 +332,17 @@ class DatabaseProvider{
     return battleModelList;
   }
 
-  Future<void> deleteCrusadeBattleModels(int id) async{
-    final db = await database;
-    await db.rawDelete('DELETE * FROM CRUSADE_BATTLE WHERE CRUSADE_ID = ?',
-        [id]);
-  }
 
   Future<void> deleteCrusadeBattleModel(int battleId) async{
     final db = await database;
+
+    var battle = await getCrusadeBattle(battleId);
+
+    await deleteCardBattleEntryModels(battleId);
+
     await db.rawDelete('DELETE FROM CRUSADE_BATTLE WHERE ID = ?', [battleId]);
+
+    await incrementCrusadeForceBattleTally(battle.crusadeId, -1);
 
   }
 
@@ -370,12 +401,32 @@ class DatabaseProvider{
 
   Future<void> deleteCardBattleEntryModels(int id) async{
     final db = await database;
-    await db.rawDelete('DELETE * FROM CARD_BATTLE_ENTRY WHERE BATTLE_ID = ?',
+
+    var battleEntries = await getCardBattleEntryModels(id);
+    battleEntries.forEach((element) {
+      incrementCrusadeCardModelBattlesPlayed(element.cardId, -1);
+      decrementCrusadeCardModelTotalDestroyed(element.cardId, -element.totalDestroyed);
+      decrementCrusadeCardModelTotalDestroyedPsychic(element.cardId, -element.totalDestroyedPsychic);
+      decrementCrusadeCardModelTotalDestroyedRanged(element.cardId, -element.totalDestroyedRanged);
+      decrementCrusadeCardModelTotalDestroyedMelee(element.cardId, -element.totalDestroyedMelee);
+      if(element.markedForGreatness != 0) decrementCrusadeCardModelExp(element.cardId, -3);
+    });
+
+    await db.rawDelete('DELETE FROM CARD_BATTLE_ENTRY WHERE BATTLE_ID = ?',
         [id]);
   }
 
   Future<void> deleteCardBattleEntryModel(int id) async{
     final db = await database;
+
+    var element = await getCardBattleEntryModel(id);
+    incrementCrusadeCardModelBattlesPlayed(element.cardId, -1);
+    decrementCrusadeCardModelTotalDestroyed(element.cardId, -element.totalDestroyed);
+    decrementCrusadeCardModelTotalDestroyedPsychic(element.cardId, -element.totalDestroyedPsychic);
+    decrementCrusadeCardModelTotalDestroyedRanged(element.cardId, -element.totalDestroyedRanged);
+    decrementCrusadeCardModelTotalDestroyedMelee(element.cardId, -element.totalDestroyedMelee);
+    if(element.markedForGreatness != 0) decrementCrusadeCardModelExp(element.cardId, -3);
+
     await db.rawDelete('DELETE FROM CARD_BATTLE_ENTRY WHERE ID = ?', [id]);
 
   }

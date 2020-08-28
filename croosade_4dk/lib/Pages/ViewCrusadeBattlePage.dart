@@ -19,7 +19,7 @@ class _ViewCrusadeBattleState extends State<ViewCrusadeBattlePage>{
   TextEditingController opposingForceNameController = new TextEditingController();
   TextEditingController infoController = new TextEditingController();
   DateTime battleDate;
-  List<CrusadeCardModel> cardModels;
+  List<CrusadeCardModel> cardModels = new List<CrusadeCardModel>();
 
   Future<void> initRetrieveCardModels() async {
 
@@ -144,6 +144,41 @@ class _ViewCrusadeBattleState extends State<ViewCrusadeBattlePage>{
     String title = "${cardModel.name}";
     return ListTile(
       title: Text(title),
+      trailing: IconButton(
+        icon: Icon(
+          Icons.highlight_off,
+        ),
+        onPressed: (){
+          showDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog (
+                  title: Text("Are you sure you want to delete $title ?"),
+                  actions: [
+                    FlatButton(
+                      child: Text("No"),
+                      onPressed: () {
+                        Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
+                      },
+                    ),
+                    FlatButton(
+                      child: Text("Yes"),
+                      onPressed: () async{
+                        await DatabaseProvider.db.deleteCardBattleEntryModel(entryModel.id);
+                        Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
+                      },
+                    ),
+                  ],
+                );
+              }
+          ).then((value) => {
+            setState(() {
+              initRetrieveCardModels();
+            })
+          });
+        },
+      ),
     );
   }
 

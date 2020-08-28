@@ -114,8 +114,8 @@ class _CrusadeBattleTabState extends State<CrusadeBattleTab> {
                     ),
                     FlatButton(
                       child: Text("Yes"),
-                      onPressed: () {
-                        DatabaseProvider.db.deleteCrusadeBattleModel(battle.id);
+                      onPressed: () async {
+                        await DatabaseProvider.db.deleteCrusadeBattleModel(battle.id);
                         Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
                       },
                     ),
@@ -123,8 +123,7 @@ class _CrusadeBattleTabState extends State<CrusadeBattleTab> {
                 );
               }
           ).then((value) => {
-            setState(() {
-            })
+            refreshPage()
           });
         },
       ),
