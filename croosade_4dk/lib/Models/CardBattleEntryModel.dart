@@ -14,6 +14,7 @@ class CardBattleEntryModel{
   String notableEvents;
   String imagePath;
   int markedForGreatness;
+  int kia;
 
   CardBattleEntryModel(int cardId, int battleId){
     this.cardId = cardId;
@@ -28,6 +29,7 @@ class CardBattleEntryModel{
     notableEvents = "";
     imagePath = "";
     markedForGreatness = 0;
+    kia = 0;
   }
 
   Map<String, dynamic> toMap(){
@@ -45,6 +47,7 @@ class CardBattleEntryModel{
       'NOTABLE_EVENTS' : notableEvents,
       'IMAGE_PATH' : imagePath,
       'MARKED_FOR_GREATNESS' : markedForGreatness,
+      'KIA' : kia,
     };
 
     if(id != null){
@@ -68,6 +71,7 @@ class CardBattleEntryModel{
     notableEvents = map['NOTABLE_EVENTS'];
     imagePath = map['IMAGE_PATH'];
     markedForGreatness = map['MARKED_FOR_GREATNESS'];
+    kia = map['KIA'];
   }
 
 }

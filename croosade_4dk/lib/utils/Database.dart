@@ -101,6 +101,7 @@ class DatabaseProvider{
                   NOTABLE_EVENTS TEXT,
                   IMAGE_PATH TEXT,
                   MARKED_FOR_GREATNESS INTEGER,
+                  KIA INTEGER,
                   FOREIGN KEY(CARD_ID) REFERENCES CRUSADE_CARD(ID),
                   FOREIGN KEY(BATTLE_ID) REFERENCES CRUSADE_BATTLE(ID)
                   )
@@ -252,11 +253,32 @@ class DatabaseProvider{
         whereArgs: [cardModel.id]
     );
   }
+
+  String getRank (int exp){
+
+    if(exp < 6){
+      return "Battle-Ready";
+    }
+    else if (exp < 16){
+      return "Blooded";
+    }
+    else if (exp < 31){
+      return "Battle-Hardened";
+    }
+    else if (exp < 51){
+      return "Heroic";
+    }
+    else {
+      return "Legendary";
+    }
+  }
   
   Future<void> incrementCrusadeCardModelBattlesPlayed(int cardId, int incrementValue)  async{
     final db = await database;
+    var card = await getCrusadeCard(cardId);
     await db.rawUpdate('UPDATE CRUSADE_CARD SET BATTLES_PLAYED = BATTLES_PLAYED + ? WHERE ID = ?', [incrementValue, cardId]);
     await db.rawUpdate('UPDATE CRUSADE_CARD SET EXPERIENCE_POINTS = EXPERIENCE_POINTS + ? WHERE ID = ?', [incrementValue, cardId]);
+    await db.rawUpdate('UPDATE CRUSADE_CARD SET RANK = ?', [getRank(card.experiencePoints)]);
   }
 
   Future<void> decrementCrusadeCardModelTotalDestroyed(int cardId, int incrementValue)  async{
