@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeBattleModel.dart';
 import 'package:croosade_4dk/Models/CardBattleEntryModel.dart';
@@ -113,6 +114,17 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
     DatabaseProvider.db.updateCardBattleEntryModel(battleEntry);
     widget.battleEntries[battleEntriesIndex] = battleEntry;
 
+  }
+
+  void updateExpMFG (CrusadeCardModel cardModel, CardBattleEntryModel battleEntry, int offset, int cardModelsIndex, int battleEntriesIndex){
+    cardModel.experiencePoints += 3 * offset;
+    cardModel.rank = getRank(cardModel.experiencePoints);
+
+    DatabaseProvider.db.updateCrusadeCardModel(cardModel);
+    widget.cardModels[cardModelsIndex] = cardModel;
+
+    DatabaseProvider.db.updateCardBattleEntryModel(battleEntry);
+    widget.battleEntries[battleEntriesIndex] = battleEntry;
   }
 
   String getRank (int exp){
@@ -233,6 +245,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
     int cardModelsIndex = widget.cardModels.indexOf(cardModel);
     int battleEntriesIndex = widget.battleEntries.indexOf(entryModel);
     String title = "${cardModel.name} / PR: ${cardModel.powerRating} / ${cardModel.rank}";
+    bool markedForGreatness = entryModel.markedForGreatness == 0 ? false : true;
     return ListTile(
       title: Text(title),
       onTap: () => {
@@ -246,6 +259,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                   builder: (BuildContext context, StateSetter setState){
                     return Container(
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -288,7 +302,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                                     });
                                   },
                                 ),
-                                Text(entryModel.totalDestroyedPsychic.toString()),
+                                Text(entryModel.totalDestroyedRanged.toString()),
                                 IconButton(
                                   icon: Icon(Icons.arrow_forward_ios),
                                   onPressed: () {
@@ -326,6 +340,19 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                               ]
                           ),
                           SizedBox(height: 25,),
+                          CheckboxListTile(
+                            title: Text("Marked For Greatness"),
+                            value: markedForGreatness,
+                            onChanged: (newValue) {
+                              setState(() {
+                                markedForGreatness = newValue;
+                                int offset = markedForGreatness ? 1 : -1;
+                                entryModel.markedForGreatness = markedForGreatness ? 1 : 0;
+                                updateExpMFG(cardModel, entryModel, offset, cardModelsIndex, battleEntriesIndex);
+                              });
+                            },
+                            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                          ),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
