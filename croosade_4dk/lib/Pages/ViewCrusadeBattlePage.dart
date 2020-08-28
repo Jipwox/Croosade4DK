@@ -17,12 +17,15 @@ class ViewCrusadeBattlePage extends StatefulWidget {
 class _ViewCrusadeBattleState extends State<ViewCrusadeBattlePage>{
 
   List<CrusadeCardModel> cardModels = new List<CrusadeCardModel>();
+  List<CrusadeCardModel> allCardModels = new List<CrusadeCardModel>();
 
   Future<void> initRetrieveCardModels() async {
 
     widget.battleEntries.forEach((element) async {
       cardModels.add(await DatabaseProvider.db.getCrusadeCard(element.cardId));
     });
+
+    allCardModels = await DatabaseProvider.db.getCrusadeCards(widget.battle.crusadeId);
 
   }
 
@@ -40,7 +43,7 @@ class _ViewCrusadeBattleState extends State<ViewCrusadeBattlePage>{
       future: initRetrieveCardModels(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.connectionState != ConnectionState.done) return new CircularProgressIndicator();
-          return BattleDetailScrollView(widget.battle, widget.battleEntries, cardModels);
+          return BattleDetailScrollView(widget.battle, widget.battleEntries, cardModels, allCardModels);
         }
     );
   }
