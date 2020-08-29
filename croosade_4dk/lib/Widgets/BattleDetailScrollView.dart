@@ -333,7 +333,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
               children: [
                 Column(
                   children: [
-                    Text("Victor"),
+                    Text("Victory"),
                     Radio(
                       value: 2,
                       groupValue: victorious,

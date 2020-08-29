@@ -49,28 +49,11 @@ class _ViewCrusadeCardState extends State<ViewCrusadeCardPage>{
       future: retrieveModel(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.connectionState != ConnectionState.done) return new CircularProgressIndicator();
-        return DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            appBar: AppBar(title: Text(cardModel.name),
-              bottom: TabBar(
-                tabs: [
-                  Tab(icon: Icon(Icons.toc),),
-                  Tab(icon: new Icon(MdiIcons.sword)),
-                ],
-              ),
-            ),
-            body: TabBarView(
-              children: [
-                CrusadeCardDetailTab(cardModel: cardModel,),
-                CustomButton(
-                  onPressed: () {
-                    print("Tapped Me");
-                  },
-                ),
-              ],
-            ),// This trailing comma makes auto-formatting nicer for build methods.
+        return Scaffold(
+          appBar: AppBar(title: Text(cardModel.name),
+
           ),
+          body: CrusadeCardDetailTab(cardModel: cardModel,),
         );
       },
     );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../Models/CrusadeBattleModel.dart';
 import '../Models/CrusadeForceModel.dart';
 import '../utils/Database.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CrusadeBattleTab extends StatefulWidget{
 
@@ -88,12 +89,22 @@ class _CrusadeBattleTabState extends State<CrusadeBattleTab> {
     );
   }
 
+  Icon getBattleIcon(int battleStatus){
+    if(battleStatus == 2){
+      return Icon(Icons.flag);
+    }
+    else if (battleStatus == 1){
+      return Icon(MdiIcons.skull);
+    }
+    else return Icon(MdiIcons.swordCross);
+  }
 
   Widget _buildRow(CrusadeBattleModel battle) {
     DateTime parsedDate = DateTime.parse(battle.date);
     String title = "Battle of ${battle.name} - ${parsedDate.month}/${parsedDate.day}/${parsedDate.year}";
     return ListTile(
       title: Text(title),
+      leading: getBattleIcon(battle.victorious),
       trailing: IconButton(
         icon: Icon(
           Icons.highlight_off,
