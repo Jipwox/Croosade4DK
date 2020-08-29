@@ -29,6 +29,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
   DateTime battleDate;
   Map<int,bool> checkedValues = new Map<int,bool>();
   Set<int> checkedIds = new Set<int>();
+  int victorious;
 
   String _imageFilePath;
   PickedFile _imageFile;
@@ -68,6 +69,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
     battleNameController.text = widget.battle.name;
     opposingForceNameController.text = widget.battle.opposingForceName;
     infoController.text = widget.battle.info;
+    victorious = widget.battle.victorious;
 
     battleNameController.addListener(_updateFromControllers);
     opposingForceNameController.addListener(_updateFromControllers);
@@ -295,6 +297,62 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                       })
                     });
                   },
+                ),
+              ],
+            ),
+            SizedBox( height: 15.0, ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Text("Victorious"),
+                    Radio(
+                      value: 2,
+                      groupValue: victorious,
+                      onChanged: (int value){
+                        setState(() {
+                          victorious = value;
+                          widget.battle.victorious = victorious;
+                          DatabaseProvider.db.updateCrusadeBattleModel(widget.battle);
+                        });
+                      },
+                    )
+                  ],
+                ),
+                SizedBox(width: 15,),
+                Column(
+                  children: [
+                    Text("Stalemate"),
+                    Radio(
+                      value: 0,
+                      groupValue: victorious,
+                      onChanged: (int value){
+                        setState(() {
+                          victorious = value;
+                          widget.battle.victorious = victorious;
+                          DatabaseProvider.db.updateCrusadeBattleModel(widget.battle);
+                        });
+                      },
+                    )
+                  ],
+                ),
+                SizedBox(width: 15,),
+                Column(
+                  children: [
+                    Text("Defeated"),
+                    Radio(
+                      value: 1,
+                      groupValue: victorious,
+                      onChanged: (int value){
+                        setState(() {
+                          victorious = value;
+                          widget.battle.victorious = victorious;
+                          DatabaseProvider.db.updateCrusadeBattleModel(widget.battle);
+                        });
+                      },
+                    )
+                  ],
                 ),
               ],
             ),
