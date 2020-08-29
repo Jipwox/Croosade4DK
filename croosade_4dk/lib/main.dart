@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Croosade 4DK',
+      title: 'Croosade40K',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Croosade 4DK'),
+      home: MyHomePage(title: 'Croosade40K'),
       routes: <String, WidgetBuilder> {
         '/AddCrusadeForcePage': (BuildContext context) => AddCrusadeForcePage(),
       },
