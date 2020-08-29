@@ -29,7 +29,6 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
   DateTime battleDate;
   Map<int,bool> checkedValues = new Map<int,bool>();
   Set<int> checkedIds = new Set<int>();
-  bool ischecked = false;
 
   String _imageFilePath;
   PickedFile _imageFile;
@@ -224,7 +223,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
+                if (widget.battleEntries.length != widget.allCardModels.length) IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
                     showDialog(
@@ -348,7 +347,6 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
             onChanged: (bool value){
               print("checkValue = $value");
               setState(() {
-                ischecked = value;
                 checkedValues[cardModel.id] = value;
                 if(value)checkedIds.add(cardModel.id);
                 if(!value) checkedIds.remove(cardModel.id);

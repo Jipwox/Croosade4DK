@@ -20,7 +20,7 @@ class _ViewCrusadeBattleState extends State<ViewCrusadeBattlePage>{
   List<CrusadeCardModel> allCardModels = new List<CrusadeCardModel>();
 
   Future<void> initRetrieveCardModels() async {
-
+    cardModels.clear();
     widget.battleEntries.forEach((element) async {
       cardModels.add(await DatabaseProvider.db.getCrusadeCard(element.cardId));
     });
