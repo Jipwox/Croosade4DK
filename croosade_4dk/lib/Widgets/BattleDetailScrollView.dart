@@ -152,6 +152,20 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
     }
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: battleDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != battleDate)
+      setState(() {
+        battleDate = picked;
+        widget.battle.date = battleDate.toString();
+        DatabaseProvider.db.updateCrusadeBattleModel(widget.battle);
+      });
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -208,6 +222,19 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                     child: TextField(
                       controller: opposingForceNameController,
                     ),
+                  ),
+                ]
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                  Text("Date "),
+                  SizedBox(width: 105,),
+                  Text("${battleDate.month}/${battleDate.day}/${battleDate.year}"),
+                  IconButton(
+                    icon: Icon(Icons.date_range),
+                    onPressed: () => _selectDate(context),
                   ),
                 ]
             ),
