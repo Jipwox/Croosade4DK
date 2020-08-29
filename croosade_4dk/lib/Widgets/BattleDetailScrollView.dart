@@ -29,6 +29,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
   DateTime battleDate;
   Map<int,bool> checkedValues = new Map<int,bool>();
   Set<int> checkedIds = new Set<int>();
+  bool ischecked = false;
 
   String _imageFilePath;
   PickedFile _imageFile;
@@ -230,33 +231,54 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                         barrierDismissible: true,
                         context: context,
                         builder: (BuildContext context) {
+                          List<CrusadeCardModel> difference = new List<CrusadeCardModel>();
+                          Set<int> cardModelsIds = new Set();
+                          Set<int> allCardModelsIds = new Set();
+                          widget.cardModels.forEach((element) {
+                            cardModelsIds.add(element.id);
+                          });
+                          widget.allCardModels.forEach((element) {
+                            allCardModelsIds.add(element.id);
+                          });
+                          Set<int> differenceSet = allCardModelsIds.difference(cardModelsIds);
+                          differenceSet.forEach((element) {
+                            difference.add(widget.allCardModels.firstWhere((element2) => element2.id == element));
+                          });
+
+                          difference.forEach((element) {
+                            checkedValues[element.id] = false;
+                            print(element.id.toString());
+                          });
+
                           return AlertDialog (
                             title: Text("Add Units"),
-                            content: StatefulBuilder(
-                                builder: (BuildContext context, StateSetter setState){
-                                  List<CrusadeCardModel> difference = widget.allCardModels.toSet().difference(widget.cardModels.toSet()).toList();
-                                  difference.forEach((element) {
-                                    checkedValues[element.id] = false;
-                                  });
-                                  return Container(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        ListView.separated(
-                                          physics: NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          padding: EdgeInsets.all(16.0),
-                                          itemCount: difference.length,
-                                          itemBuilder: /*1*/ (context, i) {
-                                            return _buildAddEntryRow(difference[i]);
-                                          },
-                                          separatorBuilder: (context, index) {
-                                            return Divider();
-                                          },),
-                                      ],
-                                    ),
-                                  );
-                                }
+                            content: Container(
+                              width: double.maxFinite,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.all(16.0),
+                                      itemCount: difference.length,
+                                      itemBuilder: /*1*/ (context, i) {
+                                        return _buildAddEntryRow(difference[i]);
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return Divider();
+                                      },),
+                                  ),
+                                  RaisedButton(
+                                    child: Text("Save"),
+                                    onPressed: () {
+                                      setState(() {
+                                        addBattleEntries();
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                             actions: [
                               FlatButton(
@@ -309,23 +331,31 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
       CardBattleEntryModel cardBattleEntryModel = new CardBattleEntryModel(element, widget.battle.id);
       DatabaseProvider.db.insertCardBattleEntryModel(cardBattleEntryModel);
       widget.battleEntries.add(cardBattleEntryModel);
+      widget.cardModels.add(widget.allCardModels.firstWhere((element2) => element2.id == element));
     });
+    checkedIds.clear();
+    Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
   }
 
   Widget _buildAddEntryRow(CrusadeCardModel cardModel) {
     String title = "${cardModel.name} / PR: ${cardModel.powerRating} / ${cardModel.rank}";
-    return CheckboxListTile(
-      title: Text(title),
-      controlAffinity: ListTileControlAffinity.leading,
-      value: checkedValues[cardModel.id],
-      onChanged: (bool value){
-        print(value);
-        setState(() {
-          checkedValues[cardModel.id] = value;
-          if(value)checkedIds.add(cardModel.id);
-          if(!value) checkedIds.remove(cardModel.id);
-        });
-      },
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return CheckboxListTile(
+            title: Text(title),
+            controlAffinity: ListTileControlAffinity.leading,
+            value: checkedValues[cardModel.id],
+            onChanged: (bool value){
+              print("checkValue = $value");
+              setState(() {
+                ischecked = value;
+                checkedValues[cardModel.id] = value;
+                if(value)checkedIds.add(cardModel.id);
+                if(!value) checkedIds.remove(cardModel.id);
+              });
+            },
+          );
+        }
     );
   }
 
