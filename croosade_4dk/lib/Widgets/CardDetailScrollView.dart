@@ -478,7 +478,6 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                                   setState(() {
                                     widget.cardModel.removeBattleScar(scar);
                                     widget.cardModel.crusadePoints ++;
-                                    widget.cardModel.crusadePoints = 0;
                                     DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
                                   });
                                 },
@@ -576,7 +575,17 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Crusade Points"),
-                SizedBox(width: 142,),
+                SizedBox(width: 95,),
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    setState(() {
+                      if(widget.cardModel.crusadePoints <= 0) return;
+                      widget.cardModel.crusadePoints--;
+                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                    });
+                  },
+                ),
                 Container(
                   margin: EdgeInsets.all(15.0),
                   padding: EdgeInsets.all(15.0),
@@ -584,7 +593,16 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                       border: Border.all(color: Colors.black)
                   ),
                   child: Text(widget.cardModel.crusadePoints.toString()),
-                )
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {
+                    setState(() {
+                      widget.cardModel.crusadePoints++;
+                      DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
+                    });
+                  },
+                ),
               ]
           ),
           Row(

@@ -393,7 +393,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                     child: TextField(
                       maxLines: 5,
                       decoration: InputDecoration(
-                        hintText: "Battle info, and notable events go here...",
+                        hintText: "Battle info and notable events go here...",
                         border: OutlineInputBorder(),
                       ),
                       controller: infoController,

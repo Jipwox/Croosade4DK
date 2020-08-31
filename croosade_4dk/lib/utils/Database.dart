@@ -188,6 +188,11 @@ class DatabaseProvider{
     await db.rawUpdate('UPDATE CRUSADE_FORCE SET BATTLE_TALLY = BATTLE_TALLY + ? WHERE ID = ?', [incrementValue, forceId]);
   }
 
+  Future<void> incrementCrusadeForceRequisitionPoints(int forceId, int incrementValue)  async{
+    final db = await database;
+    await db.rawUpdate('UPDATE CRUSADE_FORCE SET REQUISITION_POINTS = REQUISITION_POINTS + ? WHERE ID = ?', [incrementValue, forceId]);
+  }
+
   //CRUSADE CARD MODEL METHODS
 
   Future<CrusadeCardModel> insertCrusadeCardModel (CrusadeCardModel crusadeCardModel) async{

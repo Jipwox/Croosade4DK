@@ -1,4 +1,5 @@
 import 'package:croosade_4dk/Models/CardBattleEntryModel.dart';
+import 'package:croosade_4dk/Models/CrusadeForceModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Models/CrusadeBattleModel.dart';
@@ -24,9 +25,11 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
   DateTime selectedDate = DateTime.now();
   Set<int> checkedIds = new Set<int>();
   Map<int,bool> checkedValues = new Map<int,bool>();
+  CrusadeForceModel forceModel;
 
   Future<List<CrusadeCardModel>> initRetrieveCardModels() async {
     cardModels = await DatabaseProvider.db.getCrusadeCards(widget.crusadeForceId);
+    forceModel = await DatabaseProvider.db.getCrusadeForce(widget.crusadeForceId);
 
     cardModels.forEach((element) {
       checkedIds.add(element.id);
@@ -104,8 +107,7 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
     });
 
     DatabaseProvider.db.incrementCrusadeForceBattleTally(widget.crusadeForceId, 1);
-
-
+    if(forceModel.requisitionPoints < 5) DatabaseProvider.db.incrementCrusadeForceRequisitionPoints(widget.crusadeForceId, 1);
 
     Navigator.pop(context);
 
