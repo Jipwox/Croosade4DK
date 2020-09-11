@@ -22,6 +22,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
   String _imageFilePath;
   PickedFile _imageFile;
   ImagePicker imagePicker = new ImagePicker();
+  MediaQueryData queryData;
 
 
   Future getImage() async{
@@ -64,6 +65,8 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
 
   @override
   Widget build(BuildContext context){
+    queryData = MediaQuery.of(context);
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -96,7 +99,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0,),),
                   Text("Force Name"),
-                  SizedBox(height: 30,),
+                  SizedBox(height: 33,),
                   Text("Force Faction"),
                 ],
               ),
@@ -131,7 +134,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battle Tally"),
-                SizedBox(width: 85,),
+                SizedBox(width: queryData.size.width/4.815,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -166,7 +169,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battles Won"),
-                SizedBox(width: 80,),
+                SizedBox(width: queryData.size.width/5.15,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -201,7 +204,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Requisition Points"),
-                SizedBox(width: 42,),
+                SizedBox(width: queryData.size.width/9.85,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -236,7 +239,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Supply Limit"),
-                SizedBox(width: 78,),
+                SizedBox(width: queryData.size.width/5.25,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -271,7 +274,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Supply Used"),
-                SizedBox(width: 126,),
+                SizedBox(width: queryData.size.width/3.245,),
                 Container(
                   margin: EdgeInsets.all(15.0),
                   padding: EdgeInsets.all(15.0),

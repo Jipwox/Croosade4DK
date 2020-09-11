@@ -26,6 +26,7 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
   Set<int> checkedIds = new Set<int>();
   Map<int,bool> checkedValues = new Map<int,bool>();
   CrusadeForceModel forceModel;
+  MediaQueryData queryData;
 
   Future<List<CrusadeCardModel>> initRetrieveCardModels() async {
     cardModels = await DatabaseProvider.db.getCrusadeCards(widget.crusadeForceId);
@@ -115,6 +116,7 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
 
   @override
   Widget build(BuildContext context) {
+    queryData = MediaQuery.of(context);
     refreshPage();
     return Scaffold(
         appBar: AppBar(title: Text(widget.title),),
@@ -130,7 +132,7 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
                           children: [
                             Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                             Text("Battle of "),
-                            SizedBox(width: 80,),
+                            SizedBox(width: queryData.size.width/5.15,),
                             Container(
                               width: 250.0,
                               child: TextField(
@@ -146,7 +148,7 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
                           children: [
                             Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                             Text("Opposing Force "),
-                            SizedBox(width: 35,),
+                            SizedBox(width: queryData.size.width/11.5,),
                             Container(
                               width: 250.0,
                               child: TextField(
@@ -162,7 +164,7 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
                           children: [
                             Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                             Text("Date "),
-                            SizedBox(width: 105,),
+                            SizedBox(width: queryData.size.width/3.9,),
                             Text("${selectedDate.month}/${selectedDate.day}/${selectedDate.year}"),
                             IconButton(
                               icon: Icon(Icons.date_range),

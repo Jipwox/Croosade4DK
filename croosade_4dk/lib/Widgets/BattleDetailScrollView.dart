@@ -35,6 +35,8 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
   PickedFile _imageFile;
   ImagePicker imagePicker = new ImagePicker();
 
+  MediaQueryData queryData;
+
 
   Future getImage() async{
     var pickedImage = await imagePicker.getImage(source: ImageSource.gallery);
@@ -168,6 +170,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
 
   @override
   Widget build(BuildContext context){
+    queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(title: Text("Battle of ${battleNameController.text}")),
       body: SingleChildScrollView(
@@ -199,7 +202,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Battle of "),
-                  SizedBox(width: 50,),
+                  SizedBox(width: queryData.size.width/8.1,),
                   Container(
                     width: 250.0,
                     child: Focus(
@@ -216,7 +219,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Versus "),
-                  SizedBox(width: 61,),
+                  SizedBox(width: queryData.size.width/6.8,),
                   Container(
                     width: 250.0,
                     child: TextField(
@@ -230,7 +233,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Date "),
-                  SizedBox(width: 105,),
+                  SizedBox(width: queryData.size.width/5.5,),
                   Text("${battleDate.month}/${battleDate.day}/${battleDate.year}"),
                   IconButton(
                     icon: Icon(Icons.date_range),

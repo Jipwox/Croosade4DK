@@ -1,8 +1,6 @@
 import 'package:croosade_4dk/Models/CrusadeCardModel.dart';
 import 'package:flutter/material.dart';
 import '../utils/Database.dart';
-import 'TapMeButton.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:croosade_4dk/Pages/CrusadeCardDetailTab.dart';
 
 class ViewCrusadeCardPage extends StatefulWidget {

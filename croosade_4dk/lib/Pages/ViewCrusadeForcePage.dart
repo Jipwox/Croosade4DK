@@ -5,7 +5,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'CrusadeForceDetailTab.dart';
 import 'CrusadeCardListTab.dart';
 import 'CrusadeBattleTab.dart';
-import 'TapMeButton.dart';
 
 class ViewCrusadeForcePage extends StatefulWidget {
   final String title;

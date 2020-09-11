@@ -33,6 +33,8 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
   PickedFile _imageFile;
   ImagePicker imagePicker = new ImagePicker();
 
+  MediaQueryData queryData;
+
 
   Future getImage() async{
     var pickedImage = await imagePicker.getImage(source: ImageSource.gallery);
@@ -162,6 +164,9 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
 
   @override
   Widget build(BuildContext context){
+
+    queryData = MediaQuery.of(context);
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -191,7 +196,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Name"),
-                SizedBox(width: 100,),
+                SizedBox(width: queryData.size.width/4.5,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -205,7 +210,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Rank"),
-                SizedBox(width: 92,),
+                SizedBox(width: queryData.size.width/5,),
                 Container(
                   padding: EdgeInsets.all(15.0),
                   width: 250.0,
@@ -218,7 +223,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Power Rating"),
-                SizedBox(width: 95,),
+                SizedBox(width: queryData.size.width/4.5,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -254,7 +259,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battlefield Role"),
-                SizedBox(width: 45,),
+                SizedBox(width: queryData.size.width/9,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -270,7 +275,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Unit Type"),
-                SizedBox(width: 80,),
+                SizedBox(width: queryData.size.width/5.1,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -286,7 +291,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Equipment"),
-                SizedBox(width: 72,),
+                SizedBox(width: queryData.size.width/5.7,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -302,7 +307,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Psychic Powers"),
-                SizedBox(width: 39,),
+                SizedBox(width: queryData.size.width/10,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -318,7 +323,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Warlord Traits"),
-                SizedBox(width: 50,),
+                SizedBox(width: queryData.size.width/8,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -334,7 +339,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Relics"),
-                SizedBox(width: 101,),
+                SizedBox(width: queryData.size.width/4.05,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -350,7 +355,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Other Upgrades"),
-                SizedBox(width: 41,),
+                SizedBox(width: queryData.size.width/10,),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -370,7 +375,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                     Text("Battle Honors"),
                   ],
                 ),
-                SizedBox(width: 43,),
+                SizedBox(width: queryData.size.width/9.5,),
                 Column(
                   children: [
                     if(widget.cardModel.getBattleHonors().length > 0) Container(
@@ -458,7 +463,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                     Text("Battle Scars"),
                   ],
                 ),
-                SizedBox(width: 53,),
+                SizedBox(width: queryData.size.width/7.75,),
                 Column(
                   children: [
                     if(widget.cardModel.getBattleScars().length > 0) Container(
@@ -535,7 +540,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Experience Points"),
-                SizedBox(width: 77,),
+                SizedBox(width: queryData.size.width/5.3,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -575,7 +580,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Crusade Points"),
-                SizedBox(width: 95,),
+                SizedBox(width: queryData.size.width/4.33,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -610,7 +615,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battles Played"),
-                SizedBox(width: 101,),
+                SizedBox(width: queryData.size.width/4.05,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -652,7 +657,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Battles Survived"),
-                SizedBox(width: 90,),
+                SizedBox(width: queryData.size.width/4.6,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -687,7 +692,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Total Enemies Destroyed"),
-                SizedBox(width: 84,),
+                SizedBox(width: queryData.size.width/4.9,),
                 Container(
                   margin: EdgeInsets.all(15.0),
                   padding: EdgeInsets.all(15.0),
@@ -703,7 +708,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Total Destroyed w/ Psychic"),
-                SizedBox(width: 21,),
+                SizedBox(width: queryData.size.width/19,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -736,7 +741,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Total Destroyed w/ Ranged"),
-                SizedBox(width: 22,),
+                SizedBox(width: queryData.size.width/18,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -769,7 +774,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Total Destroyed w/ Melee"),
-                SizedBox(width: 31,),
+                SizedBox(width: queryData.size.width/13,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
@@ -802,7 +807,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
               children: [
                 Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                 Text("Times Marked for Greatness"),
-                SizedBox(width: 14,),
+                SizedBox(width: queryData.size.width/28,),
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {

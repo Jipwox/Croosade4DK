@@ -25,6 +25,8 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
   TextEditingController cardRelicsController = new TextEditingController();
   TextEditingController cardOtherUpgradesController = new TextEditingController();
 
+  MediaQueryData queryData;
+
   void writeToDB(String cardName, String cardPowerRating, String cardBattleFieldRole,
                  String cardUnitType, String cardEquipment, String cardPsychicPowers, String cardWarlordTraits,
                  String cardRelics, String cardOtherUpgrades, String cardInfo) async {
@@ -41,6 +43,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
 
   @override
   Widget build(BuildContext context) {
+    queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(widget.title),),
       body: SingleChildScrollView(
@@ -52,7 +55,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Name"),
-                  SizedBox(width: 100,),
+                  SizedBox(width: queryData.size.width/4.13,),
                   Container(
                     width: 250.0,
                     child: TextField(
@@ -68,7 +71,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Power Rating"),
-                  SizedBox(width: 55,),
+                  SizedBox(width: queryData.size.width/7.5,),
                   Container(
                     width: 250.0,
                     child: TextField(
@@ -84,7 +87,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Battlefield Role"),
-                  SizedBox(width: 45,),
+                  SizedBox(width: queryData.size.width/9.2,),
                   Container(
                     width: 250.0,
                     child: TextField(
@@ -100,7 +103,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Unit Type"),
-                  SizedBox(width: 80,),
+                  SizedBox(width: queryData.size.width/5.2,),
                   Container(
                     width: 250.0,
                     child: TextField(
@@ -116,7 +119,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Equipment"),
-                  SizedBox(width: 72,),
+                  SizedBox(width: queryData.size.width/5.7,),
                   Container(
                     width: 250.0,
                     child: TextField(
@@ -132,7 +135,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Psychic Powers"),
-                  SizedBox(width: 39,),
+                  SizedBox(width: queryData.size.width/10.4,),
                   Container(
                     width: 250.0,
                     child: TextField(
@@ -148,7 +151,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Warlord Traits"),
-                  SizedBox(width: 50,),
+                  SizedBox(width: queryData.size.width/8.1,),
                   Container(
                     width: 250.0,
                     child: TextField(
@@ -164,7 +167,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Relics"),
-                  SizedBox(width: 101,),
+                  SizedBox(width: queryData.size.width/4.1,),
                   Container(
                     width: 250.0,
                     child: TextField(
@@ -180,7 +183,7 @@ class _AddCrusadeCardState extends State<AddCrusadeCardPage> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
                   Text("Other Upgrades"),
-                  SizedBox(width: 41,),
+                  SizedBox(width: queryData.size.width/10.2,),
                   Container(
                     width: 250.0,
                     child: TextField(
