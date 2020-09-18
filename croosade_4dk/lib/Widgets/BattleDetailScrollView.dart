@@ -126,6 +126,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
 
   void updateExpMFG (CrusadeCardModel cardModel, CardBattleEntryModel battleEntry, int offset, int cardModelsIndex, int battleEntriesIndex){
     cardModel.experiencePoints += 3 * offset;
+    cardModel.timesMarkedForGreatness+= 1 * offset;
     cardModel.rank = getRank(cardModel.experiencePoints);
 
     DatabaseProvider.db.updateCrusadeCardModel(cardModel);

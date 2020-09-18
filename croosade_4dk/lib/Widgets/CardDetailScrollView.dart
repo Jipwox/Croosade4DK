@@ -286,6 +286,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                 ),
               ]
           ),
+          SizedBox(height: 40,),
           Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -293,9 +294,12 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
                 Text("Equipment"),
                 SizedBox(width: queryData.size.width/5.7,),
                 Container(
-                  width: 250.0,
+                  width: queryData.size.width/1.65,
                   child: TextField(
+                    maxLines: 5,
                     decoration: InputDecoration(
+                      hintText: "Equipment goes here.",
+                      border: OutlineInputBorder(),
                     ),
                     controller: widget.cardEquipmentController,
                   ),
