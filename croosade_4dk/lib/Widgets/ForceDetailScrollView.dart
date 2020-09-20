@@ -9,9 +9,11 @@ class ForceDetailScrollView extends StatefulWidget {
   var forceNameController = new TextEditingController();
   var forceFactionController = new TextEditingController();
   var forceInfoController = new TextEditingController();
+  int crusadePoints = 0;
 
   ForceDetailScrollView({@required this.forceModel, @required this.forceNameController,
-                         @required this.forceFactionController, @required this.forceInfoController});
+                         @required this.forceFactionController, @required this.forceInfoController,
+                         @required this.crusadePoints});
 
   @override
   _ForceDetailScrollViewState createState() => _ForceDetailScrollViewState();
@@ -231,6 +233,22 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
                       DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
                     });
                   },
+                ),
+              ]
+          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                Text("Crusade Points"),
+                SizedBox(width: queryData.size.width/3.8,),
+                Container(
+                  margin: EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black)
+                  ),
+                  child: Text(widget.crusadePoints.toString()),
                 ),
               ]
           ),

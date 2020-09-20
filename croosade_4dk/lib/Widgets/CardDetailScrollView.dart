@@ -87,6 +87,7 @@ class _CardDetailScrollViewState extends State<CardDetailScrollView>{
     widget.cardModel.relics = widget.cardRelicsController.text;
     widget.cardModel.otherUpgrades = widget.cardOtherUpgradesController.text;
     widget.cardModel.info = widget.cardInfoController.text;
+    widget.cardModel.warlordTraits = widget.cardWarlordTraitsController.text;
 
     DatabaseProvider.db.updateCrusadeCardModel(widget.cardModel);
   }

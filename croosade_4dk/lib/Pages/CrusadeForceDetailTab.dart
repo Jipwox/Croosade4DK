@@ -18,6 +18,7 @@ class _CrusadeForceDetailTabState extends State<CrusadeForceDetailTab>  {
   var forceFactionController = new TextEditingController();
   var forceInfoController = new TextEditingController();
   CrusadeForceModel forceModel;
+  int crusadePoints;
 
   @override
   void initState(){
@@ -33,6 +34,7 @@ class _CrusadeForceDetailTabState extends State<CrusadeForceDetailTab>  {
 
   Future<CrusadeForceModel> retrieveModel() async {
     forceModel = await DatabaseProvider.db.getCrusadeForce(widget.forceModel.id);
+    crusadePoints = await DatabaseProvider.db.getCrusadePoints(widget.forceModel.id);
     forceNameController.text = forceModel.name;
     forceFactionController.text = forceModel.faction;
     forceInfoController.text = forceModel.info;
@@ -50,7 +52,8 @@ class _CrusadeForceDetailTabState extends State<CrusadeForceDetailTab>  {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.connectionState != ConnectionState.done) return new CircularProgressIndicator();
           return ForceDetailScrollView(forceModel: forceModel, forceNameController: forceNameController,
-                                       forceFactionController: forceFactionController, forceInfoController: forceInfoController,);
+                                       forceFactionController: forceFactionController, forceInfoController: forceInfoController,
+                                        crusadePoints: crusadePoints);
         },
     );
   }

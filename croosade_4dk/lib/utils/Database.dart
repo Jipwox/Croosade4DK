@@ -153,6 +153,12 @@ class DatabaseProvider{
 
     return crusadeForceModel;
   }
+  
+  Future<int> getCrusadePoints(int forceId) async{
+    final db = await database;
+    var result = await db.rawQuery('select SUM(CRUSADE_POINTS) from CRUSADE_CARD where CRUSADE_FORCE_ID = ?', [forceId]);
+    return result[0]["SUM(CRUSADE_POINTS)"];
+  }
 
   Future<void> deleteCrusadeForceModels() async{
     final db = await database;
