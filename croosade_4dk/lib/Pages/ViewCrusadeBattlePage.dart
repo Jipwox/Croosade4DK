@@ -21,6 +21,7 @@ class _ViewCrusadeBattleState extends State<ViewCrusadeBattlePage>{
 
   Future<void> initRetrieveCardModels() async {
     cardModels.clear();
+    print(widget.battleEntries.length.toString() + "battle entries length");
     widget.battleEntries.forEach((element) async {
       cardModels.add(await DatabaseProvider.db.getCrusadeCard(element.cardId));
     });
@@ -34,7 +35,6 @@ class _ViewCrusadeBattleState extends State<ViewCrusadeBattlePage>{
   @override
   void initState() {
     super.initState();
-    initRetrieveCardModels();
   }
 
   @override

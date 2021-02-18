@@ -9,11 +9,12 @@ class ForceDetailScrollView extends StatefulWidget {
   var forceNameController = new TextEditingController();
   var forceFactionController = new TextEditingController();
   var forceInfoController = new TextEditingController();
+  var forceSupplyLimitController = new TextEditingController();
   int crusadePoints = 0;
 
   ForceDetailScrollView({@required this.forceModel, @required this.forceNameController,
                          @required this.forceFactionController, @required this.forceInfoController,
-                         @required this.crusadePoints});
+                         @required this.crusadePoints, @required this.forceSupplyLimitController});
 
   @override
   _ForceDetailScrollViewState createState() => _ForceDetailScrollViewState();
@@ -45,6 +46,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
     widget.forceNameController.addListener(_updateFromControllers);
     widget.forceFactionController.addListener(_updateFromControllers);
     widget.forceInfoController.addListener(_updateFromControllers);
+    widget.forceSupplyLimitController.addListener(_updateFromControllers);
 
     _imageFilePath = widget.forceModel.imagePath;
   }
@@ -54,6 +56,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
     widget.forceNameController.dispose();
     widget.forceFactionController.dispose();
     widget.forceInfoController.dispose();
+    widget.forceSupplyLimitController.dispose();
     super.dispose();
   }
 
@@ -61,6 +64,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
     widget.forceModel.name = widget.forceNameController.text;
     widget.forceModel.faction = widget.forceFactionController.text;
     widget.forceModel.info =  widget.forceInfoController.text;
+    widget.forceModel.supplyLimit = int.parse(widget.forceSupplyLimitController.text);
 
     DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
   }
@@ -265,6 +269,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
                       if(widget.forceModel.supplyLimit <= 0) return;
                       widget.forceModel.supplyLimit --;
                       DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+                      widget.forceSupplyLimitController.text = widget.forceModel.supplyLimit.toString();
                     });
                   },
                 ),
@@ -274,7 +279,15 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black)
                   ),
-                  child: Text(widget.forceModel.supplyLimit.toString()),
+                  child: Container(
+                    width: 30,
+                    height: 20,
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      controller: widget.forceSupplyLimitController,
+                    ),
+                  ),
                 ),
                 IconButton(
                   icon: Icon(Icons.arrow_forward_ios),
@@ -282,6 +295,7 @@ class _ForceDetailScrollViewState extends State<ForceDetailScrollView> {
                     setState(() {
                       widget.forceModel.supplyLimit ++;
                       DatabaseProvider.db.updateCrusadeForceModel(widget.forceModel);
+                      widget.forceSupplyLimitController.text = widget.forceModel.supplyLimit.toString();
                     });
                   },
                 ),

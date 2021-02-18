@@ -27,6 +27,10 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
   Map<int,bool> checkedValues = new Map<int,bool>();
   CrusadeForceModel forceModel;
   MediaQueryData queryData;
+  var totalPowerLevel = 0;
+  var currentPowerLevel = 0;
+  var totalCrusadePoints = 0;
+  var currentCrusadePoints = 0;
 
   Future<List<CrusadeCardModel>> initRetrieveCardModels() async {
     cardModels = await DatabaseProvider.db.getCrusadeCards(widget.crusadeForceId);
@@ -35,7 +39,12 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
     cardModels.forEach((element) {
       checkedIds.add(element.id);
       checkedValues[element.id] = true;
+      totalPowerLevel += element.powerRating;
+      totalCrusadePoints += element.crusadePoints;
     });
+
+    currentPowerLevel = totalPowerLevel;
+    currentCrusadePoints = totalCrusadePoints;
 
     return cardModels;
   }
@@ -62,6 +71,9 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
     setState(() {
       checkedValues.forEach((key, value) {
         checkedValues[key] = false;
+        checkedIds.clear();
+        currentPowerLevel = 0;
+        currentCrusadePoints = 0;
       });
     });
   }
@@ -70,6 +82,9 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
     setState(() {
       checkedValues.forEach((key, value) {
         checkedValues[key] = true;
+        checkedIds.add(key);
+        currentPowerLevel = totalPowerLevel;
+        currentCrusadePoints = totalCrusadePoints;
       });
     });
   }
@@ -198,6 +213,19 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
                             ),
                           ]
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 20,),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                          Text("Power Level: " + currentPowerLevel.toString() + "     Crusade Points: " + currentCrusadePoints.toString()),
+                        ],
+                      ),
                       ListView.separated(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -251,8 +279,16 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
         print(value);
         setState(() {
           checkedValues[cardModel.id] = value;
-          if(value) checkedIds.add(cardModel.id);
-          if(!value) checkedIds.remove(cardModel.id);
+          if(value){
+            checkedIds.add(cardModel.id);
+            currentPowerLevel += cardModel.powerRating;
+            currentCrusadePoints += cardModel.crusadePoints;
+          }
+          if(!value){
+            checkedIds.remove(cardModel.id);
+            currentPowerLevel -= cardModel.powerRating;
+            currentCrusadePoints -= cardModel.crusadePoints;
+          }
           print(checkedIds);
         });
       },

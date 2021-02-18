@@ -17,6 +17,7 @@ class _CrusadeForceDetailTabState extends State<CrusadeForceDetailTab>  {
   var forceNameController = new TextEditingController();
   var forceFactionController = new TextEditingController();
   var forceInfoController = new TextEditingController();
+  var forceSupplyLimitController = new TextEditingController();
   CrusadeForceModel forceModel;
   int crusadePoints;
 
@@ -38,6 +39,7 @@ class _CrusadeForceDetailTabState extends State<CrusadeForceDetailTab>  {
     forceNameController.text = forceModel.name;
     forceFactionController.text = forceModel.faction;
     forceInfoController.text = forceModel.info;
+    forceSupplyLimitController.text = forceModel.supplyLimit.toString();
     print("Inside retrieveModel()");
     print("forceModel ID = ${forceModel.id}");
 
@@ -53,7 +55,7 @@ class _CrusadeForceDetailTabState extends State<CrusadeForceDetailTab>  {
           if(snapshot.connectionState != ConnectionState.done) return new CircularProgressIndicator();
           return ForceDetailScrollView(forceModel: forceModel, forceNameController: forceNameController,
                                        forceFactionController: forceFactionController, forceInfoController: forceInfoController,
-                                        crusadePoints: crusadePoints);
+                                        crusadePoints: crusadePoints, forceSupplyLimitController: forceSupplyLimitController ,);
         },
     );
   }

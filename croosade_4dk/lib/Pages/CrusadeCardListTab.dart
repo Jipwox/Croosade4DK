@@ -18,6 +18,8 @@ class CrusadeCardListTab extends StatefulWidget {
 class _CrusadeCardListTabState extends State<CrusadeCardListTab> {
 
   List<CrusadeCardModel> cardModels = [];
+  var forcePower = 0;
+  var forceCrusadePoints = 0;
 
   @override
   void initState(){
@@ -33,6 +35,12 @@ class _CrusadeCardListTabState extends State<CrusadeCardListTab> {
 
   Future<List<CrusadeCardModel>> retrieveCardModels() async {
     cardModels = await DatabaseProvider.db.getCrusadeCards(widget.forceModel.id);
+    forcePower = 0;
+    forceCrusadePoints = 0;
+    cardModels.forEach((element) {
+      forcePower += element.powerRating;
+      forceCrusadePoints += element.crusadePoints;
+    });
 
     return cardModels;
   }
@@ -66,15 +74,25 @@ class _CrusadeCardListTabState extends State<CrusadeCardListTab> {
           future: retrieveCardModels(),
           builder: (BuildContext context, AsyncSnapshot snapshot){
             if(snapshot.connectionState != ConnectionState.done) return new CircularProgressIndicator();
-            return ListView.separated(
-              padding: EdgeInsets.all(16.0),
-              itemCount: cardModels.length,
-              itemBuilder: /*1*/ (context, i) {
-                return _buildRow(cardModels[i]);
-              },
-              separatorBuilder: (context, index) {
-                return Divider();
-              },);
+            return Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Text("Total Power: " + forcePower.toString() + "   Crusade Points: " + forceCrusadePoints.toString()),
+                Expanded(
+                    child: ListView.separated(
+                              padding: EdgeInsets.all(16.0),
+                              itemCount: cardModels.length,
+                              itemBuilder: /*1*/ (context, i) {
+                                return _buildRow(cardModels[i]);
+                              },
+                              separatorBuilder: (context, index) {
+                                return Divider();
+                              },)
+                ),
+              ],
+            );
           }
       ),
       floatingActionButton: FloatingActionButton(
@@ -86,7 +104,7 @@ class _CrusadeCardListTabState extends State<CrusadeCardListTab> {
   }
 
   Widget _buildRow(CrusadeCardModel cardModel) {
-    String title = "${cardModel.name} / PR: ${cardModel.powerRating} / ${cardModel.rank}";
+    String title = "${cardModel.name} / PR: ${cardModel.powerRating} / CP: ${cardModel.crusadePoints} / ${cardModel.rank}";
     return ListTile(
       title: Text(title),
       trailing: IconButton(

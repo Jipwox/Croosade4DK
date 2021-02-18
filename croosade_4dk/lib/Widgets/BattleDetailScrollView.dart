@@ -34,7 +34,7 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
   String _imageFilePath;
   PickedFile _imageFile;
   ImagePicker imagePicker = new ImagePicker();
-
+  var battlePowerLevel = 0;
   MediaQueryData queryData;
 
 
@@ -78,6 +78,11 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
     infoController.addListener(_updateFromControllers);
 
     _imageFilePath = widget.battle.imagePath;
+
+    battlePowerLevel = 0;
+    widget.cardModels.forEach((element) {
+      battlePowerLevel += element.powerRating;
+    });
   }
 
   void updateExp (int combatSwitch, int offset, CrusadeCardModel cardModel, CardBattleEntryModel battleEntry, int cardModelsIndex, int battleEntriesIndex){
@@ -241,6 +246,19 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                     onPressed: () => _selectDate(context),
                   ),
                 ]
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 20,),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10.0, left: 20.0),),
+                Text("Battle Power Level: " + battlePowerLevel.toString()),
+              ],
             ),
             ListView.separated(
               physics: NeverScrollableScrollPhysics(),
@@ -420,6 +438,10 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
       DatabaseProvider.db.insertCardBattleEntryModel(cardBattleEntryModel);
       widget.battleEntries.add(cardBattleEntryModel);
       widget.cardModels.add(widget.allCardModels.firstWhere((element2) => element2.id == element));
+    });
+    battlePowerLevel = 0;
+    widget.cardModels.forEach((element) {
+      battlePowerLevel += element.powerRating;
     });
     checkedIds.clear();
     Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
@@ -759,6 +781,10 @@ class _BattleDetailScrollViewState extends State<BattleDetailScrollView>{
                           DatabaseProvider.db.deleteCardBattleEntryModel(entryModel.id);
                           widget.battleEntries.removeWhere((element) => element.id == entryModel.id);
                           widget.cardModels.removeWhere((element) => element.id == entryModel.cardId);
+                          battlePowerLevel = 0;
+                          widget.cardModels.forEach((element) {
+                            battlePowerLevel += element.powerRating;
+                          });
                           Navigator.of(context).pop(true); //supposedly the "true" param will refresh the UI on pop
                         },
                       ),
