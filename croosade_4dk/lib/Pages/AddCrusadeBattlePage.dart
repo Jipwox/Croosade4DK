@@ -270,8 +270,9 @@ class _AddCrusadeBattleState extends State<AddCrusadeBattlePage>{
 
 
   Widget _buildRow(CrusadeCardModel cardModel) {
-    String title = "${cardModel.name} / PR: ${cardModel.powerRating} / ${cardModel.rank}";
+    String title = "${cardModel.name} / PR: ${cardModel.powerRating} / CP: ${cardModel.crusadePoints} / ${cardModel.rank}";
     return CheckboxListTile(
+      tristate: true,
       title: Text(title),
       controlAffinity: ListTileControlAffinity.leading,
       value: checkedValues[cardModel.id],
